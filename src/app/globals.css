@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* Base variables - light theme only */
+:root {
+  /* Font variables */
+  --font-abc-favorit: 'ABC Favorit', ui-sans-serif, system-ui, sans-serif;
+  
+  /* Background and text colors */
+  --background: #ffffff;
+  --foreground: #262930; /* rgb(38, 41, 48) from your design */
+  
+  /* Primary brand colors - your teal palette */
+  --primary-50: #f0f8fa;
+  --primary-100: #d9f0f5;
+  --primary-200: #b3e1eb;
+  --primary-300: #8dd2e1;
+  --primary-400: #67c3d7;
+  --primary-500: #307f98; /* rgb(48, 127, 152) - your main brand color */
+  --primary-600: #2a6f85;
+  --primary-700: #235f72;
+  --primary-800: #1c4f5f;
+  --primary-900: #153f4c;
+  
+  /* Gray scale for UI elements */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  
+  /* Semantic colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* Border colors */
+  --border-light: #f3f4f6;
+  --border-default: #e5e7eb;
+  --border-strong: #d1d5db;
+}
+
+/* Base reset and typography */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-feature-settings: "rlig" 1, "calt" 1;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ABC Favorit font faces - fallback if localFont doesn't work */
+@font-face {
+  font-family: 'ABC Favorit';
+  src: url('./fonts/ABCFavorit-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Favorit Extended Bold';
+  src: url('./fonts/ABCFavorit-ExtendedBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* GitBook-style typography classes */
+.gitbook-heading {
+  font-family: "ABC Favorit Extended Bold", var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.05em; /* Matches GitBook's tight letter spacing */
+  line-height: 1.05; /* Tighter line height for headlines */
+}
+
+.gitbook-body {
+  font-family: "ABC Favorit", var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.625; /* 26px line height for 16px font */
+}
+
+/* Remove default margins */
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin: 0;
+}
+
+/* Button and form reset */
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Focus styles */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
