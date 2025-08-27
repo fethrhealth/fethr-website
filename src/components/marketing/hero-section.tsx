@@ -65,8 +65,6 @@ export function HeroSection() {
                 </a>
               </Button>
             </div>
-
- 
           </div>
 
           {/* Right side - Carousel */}

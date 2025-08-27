@@ -23,20 +23,28 @@ export function WaitlistSignup({ className }: WaitlistSignupProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('🎯 FRONTEND: Form submitted with email:', email);
+    
     if (!email.trim()) {
+      console.log('❌ FRONTEND: Empty email validation failed');
       setMessage({ type: 'error', text: 'Please enter your email address' });
       return;
     }
     
     if (!validateEmail(email)) {
+      console.log('❌ FRONTEND: Email validation failed');
       setMessage({ type: 'error', text: 'Please enter a valid email address' });
       return;
     }
 
+    console.log('✅ FRONTEND: Validation passed, making API call');
     setIsLoading(true);
     setMessage(null);
 
     try {
+      console.log('🚀 FRONTEND: Calling fetch to /api/waitlist');
+      console.log('🚀 FRONTEND: Request body:', JSON.stringify({ email }));
+      
       const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
@@ -45,27 +53,57 @@ export function WaitlistSignup({ className }: WaitlistSignupProps) {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
+      console.log('📊 FRONTEND: Response received');
+      console.log('📊 FRONTEND: Response status:', response.status);
+      console.log('📊 FRONTEND: Response ok:', response.ok);
+      console.log('📊 FRONTEND: Response url:', response.url);
+
+      const responseText = await response.text();
+      console.log('📄 FRONTEND: Raw response text:', responseText);
+      console.log('📄 FRONTEND: Response length:', responseText.length);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+        console.log('✅ FRONTEND: Parsed JSON data:', data);
+      } catch (parseError) {
+        console.error('💥 FRONTEND: JSON parse error:', parseError);
+        console.error('💥 FRONTEND: Text that failed to parse:', responseText);
+        throw new Error('Invalid response from server');
+      }
 
       if (!response.ok) {
+        console.error('❌ FRONTEND: Response not ok:', response.status, data);
         throw new Error(data.error || 'Something went wrong');
       }
 
+      console.log('🎉 FRONTEND: Success! Setting success message');
       setMessage({ 
         type: 'success', 
         text: 'Thanks! You\'re now on our waitlist.' 
       });
       setEmail(''); // Clear the form on success
+      
     } catch (error) {
-      console.error('Waitlist signup error:', error);
+      console.error('💥 FRONTEND: Catch block - error occurred:', error);
+      console.error('💥 FRONTEND: Error type:', typeof error);
+      console.error('💥 FRONTEND: Error message:', error instanceof Error ? error.message : 'Unknown error');
+      
       setMessage({ 
         type: 'error', 
         text: error instanceof Error ? error.message : 'Something went wrong. Please try again.' 
       });
     } finally {
+      console.log('🏁 FRONTEND: Finally block - setting loading to false');
       setIsLoading(false);
     }
   };
+
+  console.log('🔄 FRONTEND: WaitlistSignup component rendering, current state:', { 
+    email, 
+    isLoading, 
+    message: message?.type 
+  });
 
   return (
     <div className={className}>
@@ -75,7 +113,10 @@ export function WaitlistSignup({ className }: WaitlistSignupProps) {
             type="email"
             placeholder="Enter your email address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              console.log('📝 FRONTEND: Email input changed to:', e.target.value);
+              setEmail(e.target.value);
+            }}
             variant={message?.type === 'error' ? 'error' : 'default'}
             size="lg"
             disabled={isLoading}
@@ -84,26 +125,26 @@ export function WaitlistSignup({ className }: WaitlistSignupProps) {
           />
         </div>
         
-        {/* Plain button with inline styles to ensure visibility */}
         <button
           type="submit"
           disabled={isLoading}
           className="sm:flex-shrink-0 min-w-[140px] inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-8 text-base"
           style={{
-            backgroundColor: 'rgb(48, 127, 152)', // Your primary color
+            backgroundColor: 'rgb(48, 127, 152)',
             color: 'white',
             border: 'none'
           }}
           onMouseEnter={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.backgroundColor = 'rgb(42, 111, 133)'; // Darker shade for hover
+              e.currentTarget.style.backgroundColor = 'rgb(42, 111, 133)';
             }
           }}
           onMouseLeave={(e) => {
             if (!isLoading) {
-              e.currentTarget.style.backgroundColor = 'rgb(48, 127, 152)'; // Back to normal
+              e.currentTarget.style.backgroundColor = 'rgb(48, 127, 152)';
             }
           }}
+          onClick={() => console.log('🖱️  FRONTEND: Button clicked!')}
         >
           {isLoading ? (
             <>

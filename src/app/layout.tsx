@@ -1,43 +1,36 @@
-import localFont from 'next/font/local'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+import { Navbar } from '@/components/composite/navbar'
+import { SITE_CONFIG } from '@/lib/constants'
 
-// Load ABCFavorit fonts once globally
-const ABCFavorit = localFont({
-  src: [
-    {
-      path: './fonts/ABCFavorit-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/ABCFavorit-ExtendedBold.woff2',
-      weight: '700',
-      style: 'normal',
-    }
-  ],
-  variable: '--font-abc-favorit',
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Fethr - Integrate systems in minutes',
-  description: 'Create beautiful, AI-optimized docs that automatically adapt to your users and drive conversion',
-  keywords: ['documentation', 'AI', 'docs', 'intelligent', 'platform', 'integration', 'systems'],
+  title: SITE_CONFIG.name,
+  description: SITE_CONFIG.description,
+  keywords: ['healthcare', 'integration', 'AI', 'automation', 'health technology'],
   authors: [{ name: 'Fethr' }],
-  viewport: 'width=device-width, initial-scale=1',
+  creator: 'Fethr',
+  publisher: 'Fethr',
   robots: 'index, follow',
   openGraph: {
-    title: 'Fethr - Integrate systems in minutes',
-    description: 'Create beautiful, AI-optimized docs that automatically adapt to your users and drive conversion',
     type: 'website',
-    siteName: 'Fethr',
+    url: SITE_CONFIG.url,
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
+    siteName: SITE_CONFIG.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fethr - Integrate systems in minutes',
-    description: 'Create beautiful, AI-optimized docs that automatically adapt to your users and drive conversion',
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
   },
+  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({
@@ -46,10 +39,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={ABCFavorit.variable}>
-      <body className={`${ABCFavorit.className} min-h-screen bg-white antialiased`}>
-        <div className="relative flex min-h-screen flex-col">
-          <main className="flex-1">
+    <html lang="en" className={inter.variable}>
+      <body className={`${inter.className} font-inter antialiased`}>
+        <div className="min-h-screen bg-primary-background">
+          <Navbar />
+          <main className="bg-primary-background">
             {children}
           </main>
         </div>

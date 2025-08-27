@@ -1,113 +1,207 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Display:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Base variables - light theme only */
 :root {
-  /* Font variables */
-  --font-abc-favorit: 'ABC Favorit', ui-sans-serif, system-ui, sans-serif;
-  
-  /* Background and text colors */
-  --background: #ffffff;
-  --foreground: #262930; /* rgb(38, 41, 48) from your design */
-  
-  /* Primary brand colors - your teal palette */
-  --primary-50: #f0f8fa;
-  --primary-100: #d9f0f5;
-  --primary-200: #b3e1eb;
-  --primary-300: #8dd2e1;
-  --primary-400: #67c3d7;
-  --primary-500: #307f98; /* rgb(48, 127, 152) - your main brand color */
-  --primary-600: #2a6f85;
-  --primary-700: #235f72;
-  --primary-800: #1c4f5f;
-  --primary-900: #153f4c;
-  
-  /* Gray scale for UI elements */
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
-  
-  /* Semantic colors */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --info: #3b82f6;
-  
-  /* Border colors */
-  --border-light: #f3f4f6;
-  --border-default: #e5e7eb;
-  --border-strong: #d1d5db;
+  --primary-background: #FFFFFF;
+  --primary-foreground: #1C1D1F;
+  --secondary-background: #FBFBFB;
+  --secondary-foreground: #232529;
+  --tertiary-foreground: #505967;
+  --caption-foreground: #505967;
+  --subtle-stroke: #EAEDF1;
+  --weak-stroke: #E6E7EA;
+  --strong-stroke: #D1D3D6;
+  --blue-primary: #266DF0;
+  --green-primary: #0FC27B;
 }
 
-/* Base reset and typography */
 * {
   box-sizing: border-box;
-}
-
-html {
-  font-feature-settings: "rlig" 1, "calt" 1;
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
-  color: var(--foreground);
-  background: var(--background);
-  font-weight: 400;
-  line-height: 1.6;
-}
-
-/* ABC Favorit font faces - fallback if localFont doesn't work */
-@font-face {
-  font-family: 'ABC Favorit';
-  src: url('./fonts/ABCFavorit-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ABC Favorit Extended Bold';
-  src: url('./fonts/ABCFavorit-ExtendedBold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* GitBook-style typography classes */
-.gitbook-heading {
-  font-family: "ABC Favorit Extended Bold", var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.05em; /* Matches GitBook's tight letter spacing */
-  line-height: 1.05; /* Tighter line height for headlines */
-}
-
-.gitbook-body {
-  font-family: "ABC Favorit", var(--font-abc-favorit), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 400;
-  line-height: 1.625; /* 26px line height for 16px font */
-}
-
-/* Remove default margins */
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+  padding: 0;
   margin: 0;
 }
 
-/* Button and form reset */
-button {
-  font-family: inherit;
-  font-size: inherit;
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-/* Focus styles */
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--primary-500);
-  outline-offset: 2px;
+body {
+  color: var(--primary-foreground);
+  background: var(--primary-background);
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Typography Classes - Exact Attio Matching */
+.text-hero {
+  font-family: 'Inter Display', 'Inter Display Fallback', sans-serif;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 64px;
+  color: rgb(28, 29, 31);
+  letter-spacing: -0.02em;
+}
+
+.text-hero-sub {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  color: rgb(35, 37, 41);
+}
+
+.text-button {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: rgb(28, 29, 31);
+}
+
+.text-footer-category {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(80, 89, 103);
+}
+
+.text-footer-item {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(255, 255, 255);
+  transition: color 0.2s ease;
+}
+
+.text-footer-item:hover {
+  color: rgb(200, 200, 200);
+}
+
+.text-legal {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgb(80, 89, 103);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .text-hero {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  
+  .text-hero-sub {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-hero {
+    font-size: 36px;
+    line-height: 36px;
+  }
+  
+  .text-hero-sub {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+
+/* Component Base Styles */
+.btn-primary {
+  background: var(--blue-primary);
+  color: white;
+  border: 1px solid var(--blue-primary);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #1e5ed1;
+  border-color: #1e5ed1;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-foreground);
+  border: 1px solid var(--weak-stroke);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-background);
+  border-color: var(--strong-stroke);
+}
+
+/* Layout Utilities */
+.container-custom {
+  max-width: 1392px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Animations */
+.animate-fade-in-up {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

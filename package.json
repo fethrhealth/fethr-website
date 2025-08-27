@@ -15,15 +15,18 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0",
-    "@radix-ui/react-slot": "^1.0.2"
+    "@radix-ui/react-slot": "^1.0.2",
+    "framer-motion": "^12.0.0",
+    "lucide-react": "^0.469.0"
   },
   "devDependencies": {
     "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "postcss": "^8",
+    "autoprefixer": "^10.0.1",
+    "tailwindcss": "^3.4.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
     "@eslint/eslintrc": "^3"
