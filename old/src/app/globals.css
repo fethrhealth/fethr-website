@@ -59,7 +59,7 @@ a {
   font-weight: 500;
   font-size: 20px;
   line-height: 26px;
-  color: rgb(35, 37, 41);
+  color: rgb(80, 89, 103);
 }
 
 .text-button {
@@ -68,6 +68,15 @@ a {
   font-size: 16px;
   line-height: 22px;
   color: rgb(28, 29, 31);
+}
+
+/* Navbar Typography */
+.text-navbar {
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  color: rgb(35, 37, 41);
 }
 
 .text-footer-category {

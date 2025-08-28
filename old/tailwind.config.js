@@ -70,6 +70,7 @@ module.exports = {
         'hero': ['64px', { lineHeight: '64px', fontWeight: '600' }],
         'hero-sub': ['20px', { lineHeight: '26px', fontWeight: '500' }],
         'button': ['16px', { lineHeight: '22px', fontWeight: '500' }],
+        'navbar': ['15px', { lineHeight: '23px', fontWeight: '400' }],
         'footer-category': ['14px', { lineHeight: '20px', fontWeight: '500' }],
         'footer-item': ['14px', { lineHeight: '20px', fontWeight: '400' }],
         'legal': ['12px', { lineHeight: '18px', fontWeight: '400' }],

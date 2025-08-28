@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui'
+import { Button, Logo } from '@/components/ui'
 import { NAV_ITEMS } from '@/lib/constants'
 import { X } from 'lucide-react'
 
@@ -27,9 +27,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-subtle-stroke">
-            <div className="text-primary-foreground font-inter-display font-bold text-xl">
-              Fethr
-            </div>
+            <Logo size="sm" />
             <button
               onClick={onClose}
               className="p-2 hover:bg-secondary-background rounded-lg transition-colors"
@@ -47,7 +45,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="block px-4 py-3 text-button text-primary-foreground hover:bg-secondary-background rounded-lg transition-colors"
+                      className="block px-4 py-3 text-navbar hover:bg-secondary-background rounded-lg transition-colors"
                     >
                       {item.label}
                     </Link>
