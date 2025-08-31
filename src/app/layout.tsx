@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
   },
-  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({

@@ -1,10 +1,11 @@
 import { HeroSection } from '@/components/composite/hero'
+import ProductTabs from '@/components/composite/product-tabs'
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      {/* Product showcase tabs will go here */}
+      <ProductTabs />
       {/* Footer will go here */}
     </>
   )
