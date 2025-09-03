@@ -9,14 +9,19 @@ import {
   WorkflowCanvas,
   WorkflowStep,
   WorkflowConnector,
-  WorkflowRunsSidebar
+  WorkflowRunsSidebar,
+  AISidebar
 } from './workflow';
 
 import {
   TablesFilters,
   TablesHeader,
-  TablesContent as TablesDataContent // Rename the import to avoid conflict
+  TablesContent as TablesDataContent
 } from './tables';
+
+import {
+  MonitorContent
+} from './monitor';
 
 interface Tab {
   id: string;
@@ -29,6 +34,8 @@ const ProductTabs: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [workflowAnimationPhase, setWorkflowAnimationPhase] = useState<'hidden' | 'sidebar-entering' | 'steps-fading-in' | 'running' | 'sidebar-exiting'>('hidden');
   const [tablesAnimationPhase, setTablesAnimationPhase] = useState<'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out'>('hidden');
+  const [monitorAnimationPhase, setMonitorAnimationPhase] = useState<'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out'>('hidden');
+  const [aiAnimationPhase, setAiAnimationPhase] = useState<'hidden' | 'sidebar-entering' | 'ai-running' | 'workflow-steps-appearing' | 'sidebar-exiting'>('hidden');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,6 +54,13 @@ const ProductTabs: React.FC = () => {
     trigger: 'inactive',
     research: 'inactive',
     switch: 'inactive'
+  });
+
+  // AI step states
+  const [aiStepStates, setAiStepStates] = useState({
+    trigger: 'inactive',
+    transform: 'inactive',
+    deliver: 'inactive'
   });
 
   // Auto-playing logic
@@ -78,20 +92,45 @@ const ProductTabs: React.FC = () => {
     };
   }, [activeTab, isAutoPlaying, tabs.length]);
 
+  // Monitor animations
+  useEffect(() => {
+    if (activeTab === 0) {
+      setTimeout(() => {
+        setMonitorAnimationPhase('content-fading-in');
+      }, 500);
+      
+      setTimeout(() => {
+        setMonitorAnimationPhase('visible');
+      }, 1000);
+      
+      setTimeout(() => {
+        setMonitorAnimationPhase('content-fading-out');
+      }, 4500);
+    } else {
+      setMonitorAnimationPhase('hidden');
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    }
+
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [activeTab]);
+
   // Tables animations
   useEffect(() => {
     if (activeTab === 2) {
-      // Start content fade-in at 0.5s
       setTimeout(() => {
         setTablesAnimationPhase('content-fading-in');
       }, 500);
       
-      // Content becomes fully visible at 1s
       setTimeout(() => {
         setTablesAnimationPhase('visible');
       }, 1000);
       
-      // At 4.5s, begin fade out phase
       setTimeout(() => {
         setTablesAnimationPhase('content-fading-out');
       }, 4500);
@@ -112,20 +151,16 @@ const ProductTabs: React.FC = () => {
   // Workflow animations
   useEffect(() => {
     if (activeTab === 1) {
-      // Start immediately with right sidebar coming in (1.25 seconds)
       setWorkflowAnimationPhase('sidebar-entering');
       
-      // At 0.25s, workflow steps start fading in (1s transition, complete at 1.25s)
       setTimeout(() => {
         setWorkflowAnimationPhase('steps-fading-in');
       }, 250);
       
-      // At 1.25s, step animations begin
       setTimeout(() => {
         setWorkflowAnimationPhase('running');
       }, 1250);
       
-      // At 4.5s, begin fade out phase
       setTimeout(() => {
         setWorkflowAnimationPhase('sidebar-exiting');
       }, 4500);
@@ -143,23 +178,44 @@ const ProductTabs: React.FC = () => {
     };
   }, [activeTab]);
 
+  // AI animations with proper timing
+  useEffect(() => {
+    console.log('AI tab animation useEffect - activeTab:', activeTab);
+    
+    if (activeTab === 3) { // AI tab    
+      console.log('Setting AI animation phase to ai-running');
+      setAiAnimationPhase('ai-running');
+      
+      // At 3.5s, workflow steps start appearing
+      setTimeout(() => {
+        console.log('Setting AI animation phase to workflow-steps-appearing');
+        setAiAnimationPhase('workflow-steps-appearing');
+      }, 3500);
+      
+      // At 4.5s, begin fade out phase
+      setTimeout(() => {
+        console.log('Setting AI animation phase to sidebar-exiting');
+        setAiAnimationPhase('sidebar-exiting');
+      }, 4500);
+    } else {
+      console.log('Setting AI animation phase to hidden');
+      setAiAnimationPhase('hidden');
+    }
+  }, [activeTab]);
+
   // Step animation logic - precise timing
   useEffect(() => {
     if (workflowAnimationPhase === 'running') {
-      // 1.25s-3.75s: First step runs and completes (2.5 seconds)
       setStepStates(prev => ({ ...prev, trigger: 'running' }));
       
       setTimeout(() => {
-        // 3.75s: First step completes
         setStepStates(prev => ({ ...prev, trigger: 'completed' }));
         
-        // 3.75s-4s: Arrow animation (0.25 seconds)
         setTimeout(() => {
-          // 4s: Second step starts running (but won't complete - only 0.5s before fade out)
           setStepStates(prev => ({ ...prev, research: 'running' }));
-        }, 250); // 0.25s for arrow animation
+        }, 250);
         
-      }, 2500); // 2.5s for first step to complete
+      }, 2500);
       
     } else {
       setStepStates({
@@ -170,17 +226,65 @@ const ProductTabs: React.FC = () => {
     }
   }, [workflowAnimationPhase]);
 
+  // AI Step animation logic - Updated timing: 0.5s-1s-1.5s-2s-3s
+  useEffect(() => {
+    const startTime = performance.now();
+    console.log(`[${new Date().toISOString()}] AI Step animation useEffect - aiAnimationPhase:`, aiAnimationPhase, 'at', startTime, 'ms');
+    
+    if (aiAnimationPhase === 'workflow-steps-appearing') {
+      console.log(`[${new Date().toISOString()}] Workflow steps appearing with timed sequence`);
+      
+      // 0.5s-1s: First step appears
+      setTimeout(() => {
+        console.log(`[${new Date().toISOString()}] Step 1: trigger appearing (0.5s)`);
+        setAiStepStates(prev => ({ ...prev, trigger: 'inactive' })); // Just visible, no animation
+      }, 0);
+      
+      // 1s-1.5s: Second step appears
+      setTimeout(() => {
+        console.log(`[${new Date().toISOString()}] Step 2: transform appearing (1s)`);
+        setAiStepStates(prev => ({ ...prev, trigger: 'inactive', transform: 'inactive' }));
+      }, 500);
+      
+      // 1.5s-2s: Third step appears
+      setTimeout(() => {
+        console.log(`[${new Date().toISOString()}] Step 3: deliver appearing (1.5s)`);
+        setAiStepStates(prev => ({ ...prev, trigger: 'inactive', transform: 'inactive', deliver: 'inactive' }));
+      }, 1000);
+      
+      // 2s-3s: Connectors appear
+      setTimeout(() => {
+        console.log(`[${new Date().toISOString()}] All connectors appearing (2s)`);
+        setAiStepStates(prev => ({ ...prev, trigger: 'completed', transform: 'completed', deliver: 'completed' }));
+      }, 1500);
+      
+    } else if (aiAnimationPhase === 'sidebar-exiting') {
+      // 3s-3.5s: Everything fades out
+      console.log(`[${new Date().toISOString()}] All steps fading out`);
+      setAiStepStates({
+        trigger: 'inactive',
+        transform: 'inactive',
+        deliver: 'inactive'
+      });
+    } else {
+      console.log(`[${new Date().toISOString()}] Resetting AI step states to inactive`);
+      setAiStepStates({
+        trigger: 'inactive',
+        transform: 'inactive',
+        deliver: 'inactive'
+      });
+    }
+  }, [aiAnimationPhase]);
+
   const handleTabClick = (index: number) => {
-    // Don't do anything if clicking on the currently active tab
     if (index === activeTab) {
       return;
     }
     
+    console.log('Tab clicked:', index, tabs[index]?.label);
     setActiveTab(index);
-    // Don't stop auto-playing, just reset the progress from this tab
     setProgress(0);
     
-    // Clear current intervals and restart from the clicked tab
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -188,11 +292,9 @@ const ProductTabs: React.FC = () => {
       clearTimeout(animationTimeoutRef.current);
     }
     
-    // Restart the cycle from the clicked tab
     startTimeRef.current = Date.now();
   };
 
-  // Navigation items for sidebar
   const navigationItems = [
     {
       icon: (
@@ -215,65 +317,27 @@ const ProductTabs: React.FC = () => {
       ),
       label: 'Workflows',
       active: true
-    },
-    {
-      icon: (
-        <svg width="14" height="14" fill="none">
-          <g stroke="#5C5E63" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="1.5" y="1.5" width="11" height="11" rx="2.5"></rect>
-            <path d="m4.75 7.045.277.439c.425.67.637 1.006.91 1.124a.96.96 0 0 0 .746.006c.275-.113.492-.446.927-1.11L9.25 5"></path>
-          </g>
-        </svg>
-      ),
-      label: 'Tasks',
-      active: false
-    },
-    {
-      icon: (
-        <svg width="14" height="14" fill="none">
-          <rect x="1" y="2" width="12" height="10" rx="2.5" stroke="#5C5E63" strokeWidth="1.1"></rect>
-          <path d="m3.1 4.6.51.535C5.164 6.765 5.94 7.58 6.925 7.59c.984.01 1.778-.787 3.368-2.382L10.9 4.6" stroke="#5C5E63" strokeWidth="1.1" strokeLinecap="round"></path>
-        </svg>
-      ),
-      label: 'Emails',
-      active: false
-    },
-    {
-      icon: (
-        <svg width="14" height="14" fill="none">
-          <g stroke="#5C5E63" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="1.5" y="1.5" width="11" height="11" rx="2.5"></rect>
-            <path d="M4.462 5.308v4.23M7 4.462v5.076M9.538 7v2.538"></path>
-          </g>
-        </svg>
-      ),
-      label: 'Reports',
-      active: false
     }
-  ];
-
-  const recordItems = [
-    { label: 'Companies', color: 'bg-blue-500' },
-    { label: 'People', color: 'bg-blue-500' },
-    { label: 'Deals', color: 'bg-blue-500' },
-    { label: 'Workspaces', color: 'bg-blue-500' }
   ];
 
   const workflowRuns = [
     { id: '70', runNumber: 70, status: 'executing' as const, isCurrentRun: true },
-    { id: '69', runNumber: 69, status: 'completed' as const, nodeCount: 15, completedTime: 'just now' },
-    { id: '68', runNumber: 68, status: 'completed' as const, nodeCount: 11, completedTime: '2 min ago' },
-    { id: '67', runNumber: 67, status: 'completed' as const, nodeCount: 11, completedTime: '3 min ago' },
-    { id: '66', runNumber: 66, status: 'completed' as const, nodeCount: 16, completedTime: '5 min ago' },
-    { id: '65', runNumber: 65, status: 'completed' as const, nodeCount: 14, completedTime: '6 min ago' }
+    { id: '69', runNumber: 69, status: 'completed' as const, nodeCount: 15, completedTime: 'just now' }
   ];
 
-  const sidebarVisible = activeTab === 1; // Always visible when workflows tab is active
+  const sidebarVisible = activeTab === 1 || activeTab === 3;
   const rightSidebarVisible = workflowAnimationPhase === 'sidebar-entering' || workflowAnimationPhase === 'steps-fading-in' || workflowAnimationPhase === 'running';
   const rightSidebarExiting = workflowAnimationPhase === 'sidebar-exiting';
-  const workflowVisible = activeTab === 1; // Always visible when workflows tab is active
+  const workflowVisible = activeTab === 1;
   const workflowStepsVisible = workflowAnimationPhase === 'steps-fading-in' || workflowAnimationPhase === 'running';
   const workflowStepsExiting = workflowAnimationPhase === 'sidebar-exiting';
+
+  // AI specific visibility states - sidebar is immediately visible
+  const aiSidebarVisible = activeTab === 3 && (aiAnimationPhase === 'ai-running' || aiAnimationPhase === 'workflow-steps-appearing');
+  const aiSidebarExiting = aiAnimationPhase === 'sidebar-exiting';
+  const aiWorkflowVisible = activeTab === 3;
+  const aiWorkflowStepsVisible = aiAnimationPhase === 'workflow-steps-appearing' || aiAnimationPhase === 'sidebar-exiting';
+  const aiWorkflowStepsExiting = aiAnimationPhase === 'sidebar-exiting';
 
   return (
     <section className="relative border-subtle-stroke border-t bg-gradient-to-b from-[#FDFDFD] to-white-100">
@@ -296,21 +360,31 @@ const ProductTabs: React.FC = () => {
             />
 
             <div className="mt-8">
-              {activeTab === 0 && <MonitorContent />}
+              {activeTab === 0 && <MonitorTabContent monitorAnimationPhase={monitorAnimationPhase} />}
               {activeTab === 1 && (
                 <WorkflowsContent 
                   sidebarVisible={sidebarVisible}
                   rightSidebarVisible={rightSidebarVisible}
                   workflowVisible={workflowVisible}
                   navigationItems={navigationItems}
-                  recordItems={recordItems}
                   workflowRuns={workflowRuns}
                   stepStates={stepStates}
                   workflowAnimationPhase={workflowAnimationPhase}
                 />
               )}
               {activeTab === 2 && <TablesTabContent tablesAnimationPhase={tablesAnimationPhase} />}
-              {activeTab === 3 && <AIContent />}
+              {activeTab === 3 && (
+                <AITabContent 
+                  sidebarVisible={sidebarVisible}
+                  aiSidebarVisible={aiSidebarVisible}
+                  aiSidebarExiting={aiSidebarExiting}
+                  aiWorkflowVisible={aiWorkflowVisible}
+                  aiWorkflowStepsVisible={aiWorkflowStepsVisible}
+                  aiWorkflowStepsExiting={aiWorkflowStepsExiting}
+                  aiStepStates={aiStepStates}
+                  aiAnimationPhase={aiAnimationPhase}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -319,22 +393,34 @@ const ProductTabs: React.FC = () => {
   );
 };
 
-// Individual tab content components
-const MonitorContent = () => (
-  <div className="p-6">
-    <div className="text-center">
-      <h3 className="text-xl font-semibold mb-4">Monitor Content</h3>
-      <p className="text-accent-foreground">Real-time healthcare monitoring dashboard will be displayed here.</p>
+// Monitor Tab Content Component
+const MonitorTabContent = ({ monitorAnimationPhase }: { monitorAnimationPhase: 'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out' }) => (
+  <div className="relative w-[calc(100vw-2rem)] -mx-[calc((100vw-100%)/2)] max-w-none p-1 max-sm:pr-0 [mask-image:linear-gradient(to_bottom,black,black_65%,transparent_100%)]">
+    <div className="isolate">
+      <div className="w-full overflow-hidden border border-default-stroke bg-white-100 outline-4 outline-default-stroke/20 shadow-[0px_2px_6px_0px_rgba(28,40,64,0.06),0px_6px_20px_-2px_rgba(28,40,64,0.08)] h-[320px] rounded-l-xl border-y border-l sm:rounded-xl sm:border lg:h-[640px] lg:rounded-lg pointer-events-none select-none">
+        <div className="relative flex h-full w-full">
+          <div className="w-[237px] shrink-0">
+            <WorkflowSidebar
+              visible={true}
+              companyName="Fethr Health"
+              activeItem="monitor"
+            />
+          </div>
+          <div className="flex flex-col h-full flex-1 min-w-0">
+            <MonitorContent monitorAnimationPhase={monitorAnimationPhase} />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 );
 
+// Individual tab content components
 interface WorkflowsContentProps {
   sidebarVisible: boolean;
   rightSidebarVisible: boolean;
   workflowVisible: boolean;
   navigationItems: any[];
-  recordItems: any[];
   workflowRuns: any[];
   stepStates: any;
   workflowAnimationPhase: 'hidden' | 'sidebar-entering' | 'steps-fading-in' | 'running' | 'sidebar-exiting';
@@ -345,7 +431,6 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
   rightSidebarVisible,
   workflowVisible,
   navigationItems,
-  recordItems,
   workflowRuns,
   stepStates,
   workflowAnimationPhase
@@ -404,7 +489,6 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
                 `}>
                   <div className="relative grid grid-cols-[151px_151px_26px_151px_151px_26px_151px_151px] grid-rows-[80px_70px_80px_70px_80px_88px_80px]">
                     
-                    {/* Step 1: Trigger */}
                     <div className="col-span-2 col-start-4">
                       <div className="flex items-center border-[#E6E7EA] bg-[#FBFBFB] gap-x-1 rounded-t-[10px] border-x border-t pt-[3px] pr-2 pb-1 pl-[7px] absolute bottom-full left-0">
                         <svg className="size-3" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -430,14 +514,12 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
                       />
                     </div>
 
-                    {/* Connector 1 */}
                     <WorkflowConnector
                       type="vertical"
                       status={stepStates.trigger === 'completed' ? 'active' : 'inactive'}
                       animate={true}
                     />
 
-                    {/* Step 2: Research record */}
                     <div className="col-span-2 col-start-4 row-start-3">
                       <WorkflowStep
                         title="Research record"
@@ -467,40 +549,6 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
                         status={stepStates.research}
                       />
                     </div>
-
-                    {/* Connector 2 */}
-                    <div className="-translate-x-1/2 absolute top-0 left-0 col-start-5 row-start-4 row-end-5 h-[71px] w-3">
-                      <WorkflowConnector
-                        type="vertical"
-                        status={stepStates.research === 'completed' ? 'active' : 'inactive'}
-                        animate={true}
-                      />
-                    </div>
-
-                    {/* Step 3: Switch */}
-                    <div className="col-span-2 col-start-4 row-start-5">
-                      <WorkflowStep
-                        title="Switch"
-                        description="No description"
-                        icon={(
-                          <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#FFEBEB"></rect>
-                            <rect x=".5" y=".5" width="19" height="19" rx="5.5" stroke="#FFDCDB"></rect>
-                            <g clipPath="url(#a)" stroke="#FF6D6B" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M13.428 13v-2.571c0-.947-.767-1.715-1.714-1.715v0A1.714 1.714 0 0 1 10 7V5.286M13.428 13l-1.286-1.286M13.428 13l1.286-1.286M6.572 13v-2.571c0-.947.767-1.715 1.714-1.715v0C9.233 8.714 10 7.947 10 7V5.286M6.572 13l1.286-1.286M6.572 13l-1.286-1.286M10 14.714V5.286m0 9.428 1.285-1.285M10 14.714 8.714 13.43"></path>
-                            </g>
-                          </svg>
-                        )}
-                        badge={{ text: 'Conditions' }}
-                        status={stepStates.switch}
-                      />
-                    </div>
-
-                    {/* Branch Connectors */}
-                    <WorkflowConnector type="branch-left" status="inactive" label="Condition 1" />
-                    <WorkflowConnector type="branch-right" status="inactive" label="Condition 3" />
-                    <WorkflowConnector type="branch-down" status="inactive" label="Condition 2" />
-                    
                   </div>
                 </div>
               </WorkflowCanvas>
@@ -525,6 +573,189 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
   );
 };
 
+interface AITabContentProps {
+  sidebarVisible: boolean;
+  aiSidebarVisible: boolean;
+  aiSidebarExiting: boolean;
+  aiWorkflowVisible: boolean;
+  aiWorkflowStepsVisible: boolean;
+  aiWorkflowStepsExiting: boolean;
+  aiStepStates: any;
+  aiAnimationPhase: string;
+}
+
+const AITabContent: React.FC<AITabContentProps> = ({
+  sidebarVisible,
+  aiSidebarVisible,
+  aiSidebarExiting,
+  aiWorkflowVisible,
+  aiWorkflowStepsVisible,
+  aiWorkflowStepsExiting,
+  aiStepStates
+}) => {
+  return (
+    <>
+      <style jsx>{`
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+      `}</style>
+      
+      <div className="relative w-[calc(100vw-2rem)] -mx-[calc((100vw-100%)/2)] max-w-none p-1 max-sm:pr-0 [mask-image:linear-gradient(to_bottom,black,black_65%,transparent_100%)]">
+        <div className="isolate">
+          <div className="w-full overflow-hidden border border-default-stroke bg-white-100 outline-4 outline-default-stroke/20 shadow-[0px_2px_6px_0px_rgba(28,40,64,0.06),0px_6px_20px_-2px_rgba(28,40,64,0.08)] h-[320px] rounded-l-xl border-y border-l sm:rounded-xl sm:border lg:h-[640px] lg:rounded-lg pointer-events-none select-none">
+            
+            <div className="relative grid h-full w-full lg:grid-cols-[237px_1fr_300px]">
+              
+              <WorkflowSidebar
+                visible={sidebarVisible}
+                companyName="Fethr Health"
+                activeItem="workflows"
+              />
+
+              <div className="flex flex-col">
+                <WorkflowHeader
+                  title="AI Interface Builder"
+                  breadcrumb={{
+                    parentTitle: 'Workflows',
+                    parentIcon: (
+                      <svg className="size-[14px]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <g stroke="#75777C" strokeWidth="1.1" strokeLinecap="round">
+                          <rect x="1.5" y="1.5" width="4.5" height="4.5" rx="1.5" strokeLinejoin="round"></rect>
+                          <rect x="8" y="8" width="4.5" height="4.5" rx="2.25" strokeLinejoin="round"></rect>
+                          <path d="M2.5 8v1A2.5 2.5 0 0 0 5 11.5h1M11.5 6V5A2.5 2.5 0 0 0 9 2.5H8"></path>
+                        </g>
+                      </svg>
+                    )
+                  }}
+                  visible={aiWorkflowVisible}
+                />
+
+                <WorkflowToolbar
+                  activeView="runs"
+                  runCount={1}
+                  isLive={true}
+                  visible={aiWorkflowVisible}
+                />
+
+                <WorkflowCanvas
+                  currentRun="AI Building..."
+                  visible={aiWorkflowVisible}
+                >
+                  <div className={`
+                    absolute left-1/2 top-[68px] -translate-x-1/2 w-fit transition-all duration-1000
+                    ${aiWorkflowStepsVisible ? 'opacity-100 translate-y-0' : 
+                      aiWorkflowStepsExiting ? 'opacity-0 -translate-y-8' : 
+                      'opacity-0 translate-y-8'}
+                  `}>
+                    <div className="relative grid grid-cols-[151px_151px_26px_151px_151px_26px_151px_151px] grid-rows-[80px_70px_80px_70px_80px_88px_80px]">
+                      
+                      <div className="col-span-2 col-start-4">
+                        <div className="flex items-center border-[#E6E7EA] bg-[#FBFBFB] gap-x-1 rounded-t-[10px] border-x border-t pt-[3px] pr-2 pb-1 pl-[7px] absolute bottom-full left-0">
+                          <svg className="size-3" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <circle cx="6" cy="6" r=".75" fill="#75777C"></circle>
+                            <circle cx="6" cy="6" r="5" stroke="#75777C" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"></circle>
+                            <circle cx="6" cy="6" r="2.5" stroke="#75777C" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"></circle>
+                          </svg>
+                          <span className="font-medium text-[#75777C] text-[12px] leading-4">Trigger</span>
+                        </div>
+                        
+                        <WorkflowStep
+                          title="Epic Orders"
+                          description="Incoming HL7 ADT messages"
+                          icon={(
+                            <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                              <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5EEFF"></rect>
+                              <rect x=".5" y=".5" width="19" height="19" rx="5.5" stroke="#D6E5FF"></rect>
+                              <path fillRule="evenodd" clipRule="evenodd" d="M8.693 4.786H11.308c.582 0 1.049 0 1.426.03.389.032.726.1 1.038.258.497.253.901.658 1.155 1.155.158.311.225.649.257 1.037.03.378.03.845.03 1.427v.45a.5.5 0 0 1-1 0v-.429c0-.608 0-1.034-.027-1.366-.026-.327-.076-.518-.151-.665a1.643 1.643 0 0 0-.718-.718c-.147-.075-.339-.125-.665-.152-.332-.027-.759-.027-1.367-.027H8.715c-.609 0-1.035 0-1.367.027-.326.027-.518.077-.665.152-.309.157-.56.409-.718.718-.075.147-.125.338-.151.665-.027.332-.028.758-.028 1.366v2.572c0 .608 0 1.034.028 1.367.026.326.076.517.151.664.158.31.409.56.718.718.147.075.339.125.665.152.332.027.758.027 1.367.027H10a.5.5 0 1 1 0 1H8.693c-.582 0-1.049 0-1.426-.03-.389-.032-.726-.099-1.038-.258a2.643 2.643 0 0 1-1.155-1.155c-.158-.311-.225-.649-.257-1.037-.03-.378-.03-.845-.03-1.427V8.693c0-.582 0-1.049.03-1.427.032-.388.099-.726.257-1.037A2.643 2.643 0 0 1 6.23 5.074c.312-.159.65-.226 1.038-.257.377-.031.844-.031 1.426-.031Z" fill="#407FF2"></path>
+                            </svg>
+                          )}
+                          badge={{ text: 'HL7' }}
+                          status={aiStepStates.trigger}
+                        />
+                      </div>
+
+                      <WorkflowConnector
+                        type="vertical"
+                        status={aiStepStates.trigger === 'completed' ? 'active' : 'inactive'}
+                        animate={true}
+                      />
+
+                      <div className="col-span-2 col-start-4 row-start-3">
+                        <WorkflowStep
+                          title="Transform Data"
+                          description="Convert Epic format to Cerner format"
+                          icon={(
+                            <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                              <rect x=".5" y=".5" width="19" height="19" rx="4.5" stroke="#232529" strokeOpacity=".08"></rect>
+                              <g fill="#9162F9">
+                                <path d="M14.75 10V8.45c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874c-.428-.218-.988-.218-2.108-.218h-3.1c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874c-.218.428-.218.988-.218 2.108v3.1c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.428.218.988.218 2.108.218H10" stroke="#9162F9" strokeLinecap="round"/>
+                                <rect x="7.149" y="7.15" width="2.1" height="2.1" rx=".6" stroke="#9162F9" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M7.15 11.05H9.5M7.15 12.85H9" stroke="#9162F9" strokeLinecap="round"/>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M11.5 12.75a1.25 1.25 0 1 1 2.5 0 1.25 1.25 0 0 1-2.5 0Zm1.25-2.25a2.25 2.25 0 1 0 1.198 4.155l.698.699a.5.5 0 0 0 .708-.707l-.699-.7A2.25 2.25 0 0 0 12.75 10.5Z"/>
+                              </g>
+                            </svg>
+                          )}
+                          badge={{ 
+                            text: 'AI',
+                            icon: (
+                              <svg className="size-3" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M10.235 10.456a1.766 1.766 0 1 0-.002-3.53 1.766 1.766 0 0 0 .002 3.53ZM1.765 5.497a1.766 1.766 0 1 0-.001-3.531 1.766 1.766 0 0 0 .001 3.531ZM5.911 2.613a1.306 1.306 0 1 0 0-2.612 1.306 1.306 0 0 0 0 2.612ZM1.765 10.003a1.306 1.306 0 1 0-.001-2.612 1.306 1.306 0 0 0 0 2.612ZM5.948 7.39a1.175 1.175 0 1 0-.001-2.35 1.175 1.175 0 0 0 0 2.35ZM5.912 12a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85ZM10.077 4.677a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85Z" fill="#565B60"/>
+                              </svg>
+                            ),
+                            bgColor: 'border-[#CDD7DE] bg-[#D9E6EF]',
+                            textColor: 'text-[#565B60]',
+                            borderColor: 'border-[#CDD7DE]'
+                          }}
+                          status={aiStepStates.transform}
+                        />
+                      </div>
+
+                      <div className="-translate-x-1/2 absolute top-0 left-0 col-start-5 row-start-4 row-end-5 h-[71px] w-3">
+                        <WorkflowConnector
+                          type="vertical"
+                          status={aiStepStates.transform === 'completed' ? 'active' : 'inactive'}
+                          animate={true}
+                        />
+                      </div>
+
+                      <div className="col-span-2 col-start-4 row-start-5">
+                        <WorkflowStep
+                          title="Send to Cerner"
+                          description="Deliver transformed orders"
+                          icon={(
+                            <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                              <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5F7FF"></rect>
+                              <rect x=".5" y=".5" width="19" height="19" rx="5.5" stroke="#CCF0FF"></rect>
+                              <g clipPath="url(#a)" stroke="#2DD4BF" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M6 10l3 3 5-5"/>
+                                <circle cx="10" cy="10" r="7"/>
+                              </g>
+                            </svg>
+                          )}
+                          badge={{ text: 'Delivery' }}
+                          status={aiStepStates.deliver}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </WorkflowCanvas>
+              </div>
+
+              <AISidebar 
+                visible={aiSidebarVisible} 
+                exiting={aiSidebarExiting} 
+              />
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const TablesTabContent = ({ tablesAnimationPhase }: { tablesAnimationPhase: 'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out' }) => (
   <div className="relative w-[calc(100vw-2rem)] -mx-[calc((100vw-100%)/2)] max-w-none p-1 max-sm:pr-0 [mask-image:linear-gradient(to_bottom,black,black_65%,transparent_100%)]">
     <div className="isolate">
@@ -546,15 +777,6 @@ const TablesTabContent = ({ tablesAnimationPhase }: { tablesAnimationPhase: 'hid
           </div>
         </div>
       </div>
-    </div>
-  </div>
-);
-
-const AIContent = () => (
-  <div className="p-6">
-    <div className="text-center">
-      <h3 className="text-xl font-semibold mb-4">AI Content</h3>
-      <p className="text-accent-foreground">AI-powered healthcare automation features will be displayed here.</p>
     </div>
   </div>
 );
