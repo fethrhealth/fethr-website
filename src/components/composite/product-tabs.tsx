@@ -325,14 +325,12 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
             
             <WorkflowSidebar
               visible={sidebarVisible}
-              companyName="Basepoint"
-              navigationItems={navigationItems}
-              recordItems={recordItems}
+              companyName="Fethr Health"
             />
 
             <div className="flex flex-col">
               <WorkflowHeader
-                title="Automatically qualify leads"
+                title="Patient data automation pipeline"
                 breadcrumb={{
                   parentTitle: 'Workflows',
                   parentIcon: (
