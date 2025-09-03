@@ -12,6 +12,12 @@ import {
   WorkflowRunsSidebar
 } from './workflow';
 
+import {
+  TablesFilters,
+  TablesHeader,
+  TablesContent as TablesDataContent // Rename the import to avoid conflict
+} from './tables';
+
 interface Tab {
   id: string;
   label: string;
@@ -22,6 +28,7 @@ const ProductTabs: React.FC = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const [workflowAnimationPhase, setWorkflowAnimationPhase] = useState<'hidden' | 'sidebar-entering' | 'steps-fading-in' | 'running' | 'sidebar-exiting'>('hidden');
+  const [tablesAnimationPhase, setTablesAnimationPhase] = useState<'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out'>('hidden');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -70,6 +77,37 @@ const ProductTabs: React.FC = () => {
       }
     };
   }, [activeTab, isAutoPlaying, tabs.length]);
+
+  // Tables animations
+  useEffect(() => {
+    if (activeTab === 2) {
+      // Start content fade-in at 0.5s
+      setTimeout(() => {
+        setTablesAnimationPhase('content-fading-in');
+      }, 500);
+      
+      // Content becomes fully visible at 1s
+      setTimeout(() => {
+        setTablesAnimationPhase('visible');
+      }, 1000);
+      
+      // At 4.5s, begin fade out phase
+      setTimeout(() => {
+        setTablesAnimationPhase('content-fading-out');
+      }, 4500);
+    } else {
+      setTablesAnimationPhase('hidden');
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    }
+
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, [activeTab]);
 
   // Workflow animations
   useEffect(() => {
@@ -271,7 +309,7 @@ const ProductTabs: React.FC = () => {
                   workflowAnimationPhase={workflowAnimationPhase}
                 />
               )}
-              {activeTab === 2 && <TablesContent />}
+              {activeTab === 2 && <TablesTabContent tablesAnimationPhase={tablesAnimationPhase} />}
               {activeTab === 3 && <AIContent />}
             </div>
           </div>
@@ -326,6 +364,7 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
             <WorkflowSidebar
               visible={sidebarVisible}
               companyName="Fethr Health"
+              activeItem="workflows"
             />
 
             <div className="flex flex-col">
@@ -486,11 +525,27 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
   );
 };
 
-const TablesContent = () => (
-  <div className="p-6">
-    <div className="text-center">
-      <h3 className="text-xl font-semibold mb-4">Tables Content</h3>
-      <p className="text-accent-foreground">Healthcare data tables and analytics will be displayed here.</p>
+const TablesTabContent = ({ tablesAnimationPhase }: { tablesAnimationPhase: 'hidden' | 'content-fading-in' | 'visible' | 'content-fading-out' }) => (
+  <div className="relative w-[calc(100vw-2rem)] -mx-[calc((100vw-100%)/2)] max-w-none p-1 max-sm:pr-0 [mask-image:linear-gradient(to_bottom,black,black_65%,transparent_100%)]">
+    <div className="isolate">
+      <div className="w-full overflow-hidden border border-default-stroke bg-white-100 outline-4 outline-default-stroke/20 shadow-[0px_2px_6px_0px_rgba(28,40,64,0.06),0px_6px_20px_-2px_rgba(28,40,64,0.08)] h-[320px] rounded-l-xl border-y border-l sm:rounded-xl sm:border lg:h-[640px] lg:rounded-lg pointer-events-none select-none">
+        <div className="relative flex h-full w-full">
+          <div className="w-[237px] shrink-0">
+            <WorkflowSidebar
+              visible={true}
+              companyName="Fethr Health"
+              activeItem="tables"
+            />
+          </div>
+          <div className="flex flex-col h-full flex-1 min-w-0">
+            <TablesHeader />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <TablesFilters />
+              <TablesDataContent tablesAnimationPhase={tablesAnimationPhase} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 );

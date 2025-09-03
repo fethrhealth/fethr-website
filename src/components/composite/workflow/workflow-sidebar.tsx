@@ -13,12 +13,14 @@ interface WorkflowSidebarProps {
   visible: boolean;
   companyName: string;
   showQuickActions?: boolean;
+  activeItem?: 'workflows' | 'tables' | 'monitor' | 'logs' | 'schemas' | 'integrations' | 'plugins' | 'credentials' | 'usage' | 'billing' | 'settings';
 }
 
 export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
   visible,
   companyName,
-  showQuickActions = true
+  showQuickActions = true,
+  activeItem = 'workflows'
 }) => {
   // Monitoring section items
   const monitoringItems: NavigationItem[] = [
@@ -33,7 +35,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Monitor',
-      active: false
+      active: activeItem === 'monitor'
     },
     {
       icon: (
@@ -47,7 +49,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Logs',
-      active: false
+      active: activeItem === 'logs'
     }
   ];
 
@@ -60,7 +62,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Tables',
-      active: false
+      active: activeItem === 'tables'
     },
     {
       icon: (
@@ -73,7 +75,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Schemas',
-      active: false
+      active: activeItem === 'schemas'
     },
     {
       icon: (
@@ -83,7 +85,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Integrations',
-      active: false
+      active: activeItem === 'integrations'
     },
     {
       icon: (
@@ -93,7 +95,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Plugins',
-      active: false
+      active: activeItem === 'plugins'
     },
     {
       icon: (
@@ -104,7 +106,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Credentials',
-      active: false
+      active: activeItem === 'credentials'
     },
     {
       icon: (
@@ -116,7 +118,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Workflows',
-      active: true
+      active: activeItem === 'workflows'
     }
   ];
 
@@ -130,7 +132,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Usage',
-      active: false
+      active: activeItem === 'usage'
     },
     {
       icon: (
@@ -141,7 +143,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Billing',
-      active: false
+      active: activeItem === 'billing'
     }
   ];
 
@@ -155,7 +157,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
         </svg>
       ),
       label: 'Settings',
-      active: false
+      active: activeItem === 'settings'
     }
   ];
 
