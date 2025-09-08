@@ -1,9 +1,5 @@
-export { ProductTabBar } from './product-tab-bar';
-export { WorkflowSidebar } from './workflow-sidebar';
-export { WorkflowHeader } from './workflow-header';
-export { WorkflowToolbar } from './workflow-toolbar';
-export { WorkflowCanvas } from './workflow-canvas';
-export { WorkflowStep } from './workflow-step';
-export { WorkflowConnector } from './workflow-connector';
-export { WorkflowRunsSidebar } from './workflow-runs-sidebar';
-export { AISidebar } from './ai-sidebar';
+export { WorkflowCanvas } from './workflow-canvas'
+export { WorkflowStep } from './workflow-step'
+export { WorkflowConnector } from './workflow-connector'
+export { WorkflowRunsPanel } from './workflow-runs-panel'
+export { AIChatPanel } from './ai-chat-panel'
