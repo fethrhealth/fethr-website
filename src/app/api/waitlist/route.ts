@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { WaitlistFormData } from '@/types'
 
-const ATTIO_API_URL = process.env.ATTIO_API_URL || 'https://api.attio.com'
+const ATTIO_API_URL = process.env.ATTIO_API_URL
 const ATTIO_API_KEY = process.env.ATTIO_API_KEY
 
 export async function POST(request: NextRequest) {
@@ -35,35 +35,65 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Submit to Attio CRM
+    // Submit to Attio CRM - Correct payload structure from Postman
+    const attioPayload = {
+      data: {
+        values: {
+          email_addresses: [data.email]
+        }
+      }
+    }
+
+    console.log('Sending to Attio:', JSON.stringify(attioPayload, null, 2))
+
     const attioResponse = await fetch(`${ATTIO_API_URL}/v2/objects/people/records`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${ATTIO_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        data: {
-          values: {
-            email_addresses: [{ email_address: data.email }],
-            tags: ['fethr-waitlist'],
-            notes: `Waitlist signup from Fethr website at ${new Date().toISOString()}`
-          }
-        }
-      }),
+      body: JSON.stringify(attioPayload),
     })
 
     // Handle Attio API response
     if (!attioResponse.ok) {
-      const errorData = await attioResponse.json().catch(() => ({}))
-      console.error('Attio API error:', errorData)
+      const errorText = await attioResponse.text()
+      let errorData
+      try {
+        errorData = JSON.parse(errorText)
+      } catch {
+        errorData = { message: errorText }
+      }
       
-      // Handle duplicate email
-      if (attioResponse.status === 409) {
+      console.error('Attio API error:', {
+        status: attioResponse.status,
+        statusText: attioResponse.statusText,
+        error: errorData
+      })
+      
+      // Handle uniqueness conflict (person already exists) - treat as success
+      if (attioResponse.status === 400 && errorData?.code === 'uniqueness_conflict') {
+        console.log('Email already exists in Attio, treating as success')
+        return NextResponse.json({
+          success: true,
+          message: 'You\'re already on our waitlist! We\'ll be in touch soon.'
+        })
+      }
+      
+      // Handle other 409 conflicts
+      if (attioResponse.status === 409 || errorText.includes('already exists')) {
+        return NextResponse.json({
+          success: true,
+          message: 'You\'re already on our waitlist! We\'ll be in touch soon.'
+        })
+      }
+      
+      // Handle validation errors
+      if (attioResponse.status === 400) {
         return NextResponse.json({
           success: false,
-          error: 'This email is already on our waitlist!'
-        }, { status: 409 })
+          error: errorData?.message || 'Invalid email format'
+        }, { status: 400 })
       }
       
       return NextResponse.json({
@@ -71,6 +101,9 @@ export async function POST(request: NextRequest) {
         error: 'Failed to join waitlist. Please try again.'
       }, { status: 500 })
     }
+
+    const result = await attioResponse.json()
+    console.log('Attio success response:', result)
 
     // Success response
     return NextResponse.json({
