@@ -29,7 +29,7 @@ export function Navbar() {
                 <div className="flex grow items-center gap-x-9">
                   {/* Logo link - 103x28 with -6px margins, 6px left/right padding */}
                   <Link href="/" className="-mx-1.5 rounded-xl px-1.5">
-                    <Image src={Logo} alt="navbar logo" width={50} />
+                    <Image src={Logo} alt="navbar logo" width={150} />
                   </Link>
 
                   {/* Nav element - 419.188x36 */}

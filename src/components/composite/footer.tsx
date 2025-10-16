@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image'
-import Logo from '@/assets/logo.svg'
+import Logo from '@/assets/logo-white.svg'
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { AiOutlineYoutube } from "react-icons/ai";
 
