@@ -6,4 +6,5 @@ export { WorkflowCanvas } from './workflow-canvas';
 export { WorkflowStep } from './workflow-step';
 export { WorkflowConnector } from './workflow-connector';
 export { WorkflowRunsSidebar } from './workflow-runs-sidebar';
-export { AISidebar } from './ai-sidebar';
+export { AISidebar } from '../ai/ai-sidebar';
+export { AIStep } from '../ai/ai-step';

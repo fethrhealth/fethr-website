@@ -2,9 +2,11 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Button, Logo } from '@/components/ui'
+import { Button } from '@/components/ui'
 import { NAV_ITEMS } from '@/lib/constants'
 import { X } from 'lucide-react'
+import Logo from '@/assets/logo.svg'
+import Image from 'next/image'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -17,17 +19,18 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
-      
+
       {/* Menu Content */}
       <div className="fixed right-0 top-0 h-full w-80 bg-primary-background shadow-xl">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-subtle-stroke">
-            <Logo size="sm" />
+            <Image src={Logo} alt="mobile menu logo" width={50} />
+
             <button
               onClick={onClose}
               className="p-2 hover:bg-secondary-background rounded-lg transition-colors"
@@ -57,17 +60,17 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
           {/* Actions */}
           <div className="p-4 border-t border-subtle-stroke space-y-2">
-            <Button 
-              variant="outline" 
-              size="lg" 
+            <Button
+              variant="outline"
+              size="lg"
               className="w-full"
               onClick={onClose}
             >
               Sign in
             </Button>
-            <Button 
-              variant="primary" 
-              size="lg" 
+            <Button
+              variant="primary"
+              size="lg"
               className="w-full"
               onClick={onClose}
             >

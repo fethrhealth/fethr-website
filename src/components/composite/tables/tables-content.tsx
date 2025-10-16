@@ -13,7 +13,7 @@ interface RaceMapping {
 
 const raceMappings: RaceMapping[] = [
   {
-    id: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
+    id: 'a1b2c3d4',
     standard: 'American Indian or Alaska Native',
     cerner: 'AI/AN',
     epic: 'AMIND',
@@ -21,7 +21,7 @@ const raceMappings: RaceMapping[] = [
     athena: '01'
   },
   {
-    id: 'b2c3d4e5-f6g7-8901-2345-678901bcdefg',
+    id: 'b2c3d4e5',
     standard: 'Asian',
     cerner: 'ASN',
     epic: 'ASIAN',
@@ -29,7 +29,7 @@ const raceMappings: RaceMapping[] = [
     athena: '02'
   },
   {
-    id: 'c3d4e5f6-g7h8-9012-3456-789012cdefgh',
+    id: 'c3d4e5f6',
     standard: 'Black or African American',
     cerner: 'BLA',
     epic: 'AFAM',
@@ -37,7 +37,7 @@ const raceMappings: RaceMapping[] = [
     athena: '03'
   },
   {
-    id: 'd4e5f6g7-h8i9-0123-4567-890123defghi',
+    id: 'd4e5f6g7',
     standard: 'Native Hawaiian or Other Pacific Islander',
     cerner: 'PI',
     epic: 'PAC_ISL',
@@ -45,7 +45,7 @@ const raceMappings: RaceMapping[] = [
     athena: '04'
   },
   {
-    id: 'e5f6g7h8-i9j0-1234-5678-901234efghij',
+    id: 'e5f6g7h8',
     standard: 'White',
     cerner: 'WHT',
     epic: 'Caucasian',
@@ -53,7 +53,7 @@ const raceMappings: RaceMapping[] = [
     athena: '05'
   },
   {
-    id: 'f6g7h8i9-j0k1-2345-6789-012345fghijk',
+    id: 'f6g7h8i9',
     standard: 'Other Race',
     cerner: 'OTH',
     epic: 'OTHER',
@@ -61,7 +61,7 @@ const raceMappings: RaceMapping[] = [
     athena: '99'
   },
   {
-    id: 'g7h8i9j0-k1l2-3456-7890-123456ghijkl',
+    id: 'g7h8i9j0',
     standard: 'Declined to Answer',
     cerner: 'UNK',
     epic: 'UNK',
@@ -69,7 +69,7 @@ const raceMappings: RaceMapping[] = [
     athena: 'DTA'
   },
   {
-    id: 'h8i9j0k1-l2m3-4567-8901-234567hijklm',
+    id: 'h8i9j0k1',
     standard: 'Multiple Race',
     cerner: 'MUL',
     epic: 'MULTI',
@@ -77,7 +77,7 @@ const raceMappings: RaceMapping[] = [
     athena: '06'
   },
   {
-    id: 'i9j0k1l2-m3n4-5678-9012-345678ijklmn',
+    id: 'i9j0k1l2',
     standard: 'Hispanic or Latino',
     cerner: 'HIS',
     epic: 'HISPANIC',
@@ -85,7 +85,7 @@ const raceMappings: RaceMapping[] = [
     athena: '07'
   },
   {
-    id: 'j0k1l2m3-n4o5-6789-0123-456789jklmno',
+    id: 'j0k1l2m3',
     standard: 'Not Hispanic or Latino',
     cerner: 'NON',
     epic: 'NON_HISP',
@@ -93,7 +93,7 @@ const raceMappings: RaceMapping[] = [
     athena: '08'
   },
   {
-    id: 'k1l2m3n4-o5p6-7890-1234-567890klmnop',
+    id: 'k1l2m3n4',
     standard: 'Unknown Race',
     cerner: 'UNK',
     epic: 'UNKNOWN',
@@ -101,7 +101,7 @@ const raceMappings: RaceMapping[] = [
     athena: '09'
   },
   {
-    id: 'l2m3n4o5-p6q7-8901-2345-678901lmnopq',
+    id: 'l2m3n4o5',
     standard: 'Unavailable',
     cerner: 'UNA',
     epic: 'UNAVAIL',
@@ -109,7 +109,7 @@ const raceMappings: RaceMapping[] = [
     athena: '10'
   },
   {
-    id: 'm3n4o5p6-q7r8-9012-3456-789012mnopqr',
+    id: 'm3n4o5p6',
     standard: 'Prefer Not to Disclose',
     cerner: 'PND',
     epic: 'PREFER_NOT',
@@ -162,7 +162,7 @@ export function TablesContent({ tablesAnimationPhase }: { tablesAnimationPhase: 
   const columnWidths = useMemo(() => {
     const baseWidths = {
       checkbox: 65,
-      id: 320,
+      id: 120,
       standard: 300, // Increased for longer race names
       cerner: 150,   // Updated per request
       epic: 150,     // Updated per request

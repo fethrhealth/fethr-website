@@ -18,6 +18,7 @@ interface WorkflowStepProps {
   width?: number;
   height?: number;
   style?: React.CSSProperties;
+  delay?: boolean
 }
 
 export const WorkflowStep: React.FC<WorkflowStepProps> = ({
@@ -29,7 +30,8 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
   showConnectionPoint = true,
   width = 302,
   height = 80,
-  style
+  style,
+  delay
 }) => {
   const getStatusBadge = () => {
     if (status === 'running') {
@@ -42,7 +44,7 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
         </span>
       );
     }
-    
+
     if (status === 'completed') {
       return (
         <span className="font-medium text-[#232529] text-[12px] leading-4 inline-flex items-center text-nowrap border px-[5px] py-px border-[#C7F4D3] bg-[#DDF9E4] gap-x-[5px] rounded-md pr-1.5">
@@ -53,47 +55,48 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
         </span>
       );
     }
-    
+
     return null;
   };
 
   const getBorderAnimation = () => {
     if (status === 'running') {
       return (
-        <path 
-          d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z" 
-          fill="none" 
-          stroke="#54D490" 
-          strokeWidth="2" 
+        <path
+          d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z"
+          fill="none"
+          stroke="#54D490"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           pathLength="1"
           strokeDasharray="0 1"
           strokeDashoffset="0"
         >
-          <animate 
-            attributeName="stroke-dasharray" 
-            values="0 1;1 0" 
-            dur="2.5s" 
+          <animate
+            attributeName="stroke-dasharray"
+            values="0 1;1 0"
+            dur="2s"
             fill="freeze"
+            begin={delay ? '2s' : '0s'}
           />
         </path>
       );
     }
-    
+
     if (status === 'completed') {
       return (
-        <path 
-          d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z" 
-          fill="none" 
-          stroke="#54D490" 
+        <path
+          d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z"
+          fill="none"
+          stroke="#54D490"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       );
     }
-    
+
     return null;
   };
 
@@ -108,28 +111,28 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
       <svg className="isolate h-full w-full overflow-visible">
         <g strokeWidth="1px">
           {/* Base border */}
-          <path 
-            d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z" 
-            fill="white" 
+          <path
+            d="M 151 0.5 L 289.5 0.5 A 12 12 0 0 1 301.5 12 L 301.5 12.5 L 301.5 67.5 A 12 12 0 0 1 289.5 79.5 L 290 79.5 L 12.5 79.5 A 12 12 0 0 1 0.5 68 L 0.5 68.5 L 0.5 12 L 0.5 0.5 L 12.5 0.5 Z"
+            fill="white"
             stroke="#E6E7EA"
           />
-          
+
           {/* Animated border */}
           {getBorderAnimation()}
-          
+
           {/* Connection point */}
           {showConnectionPoint && (
-            <circle 
-              cx="151" 
-              cy="79.5" 
-              r="5" 
-              fill="white" 
+            <circle
+              cx="151"
+              cy="79.5"
+              r="5"
+              fill="white"
               stroke={status === 'completed' ? '#0FC27B' : '#266DF0'}
             />
           )}
         </g>
       </svg>
-      
+
       {/* Step Content */}
       <div className="absolute flex flex-col inset-[0.5px] p-3">
         <div className="flex items-center justify-between">
@@ -138,19 +141,16 @@ export const WorkflowStep: React.FC<WorkflowStepProps> = ({
             <span className="font-medium text-[14px] leading-5 tracking-[-0.28px]">{title}</span>
           </div>
           {badge && (
-            <span className={`font-medium text-[12px] leading-4 inline-flex items-center text-nowrap rounded-lg border px-[5px] py-px gap-x-1 pr-[6px] ${
-              badge.bgColor || 'border-[#EEEFF1] bg-[#F4F5F6]'
-            } ${
-              badge.textColor || 'text-[#5C5E63]'
-            } ${
-              badge.borderColor || 'border-[#EEEFF1]'
-            }`}>
+            <span className={`font-medium text-[12px] leading-4 inline-flex items-center text-nowrap rounded-lg border px-[5px] py-px gap-x-1 pr-[6px] ${badge.bgColor || 'border-[#EEEFF1] bg-[#F4F5F6]'
+              } ${badge.textColor || 'text-[#5C5E63]'
+              } ${badge.borderColor || 'border-[#EEEFF1]'
+              }`}>
               {badge.icon}
               <span>{badge.text}</span>
             </span>
           )}
         </div>
-        <hr className="border-[#E6E7EA] mt-[11px] mb-[8px]"/>
+        <hr className="border-[#E6E7EA] mt-[11px] mb-[8px]" />
         <span className="font-medium text-[12px] leading-4 text-[#75777C]">{description}</span>
       </div>
     </div>
