@@ -10,6 +10,7 @@ interface Tab {
 interface ProductTabBarProps {
   tabs: Tab[];
   activeTab: number;
+  previousTab?: number;
   progress: number;
   isAutoPlaying: boolean;
   onTabClick: (index: number) => void;
@@ -20,6 +21,7 @@ interface ProductTabBarProps {
 export const ProductTabBar: React.FC<ProductTabBarProps> = ({
   tabs,
   activeTab,
+  previousTab,
   progress,
   isAutoPlaying,
   onTabClick,
@@ -35,8 +37,8 @@ export const ProductTabBar: React.FC<ProductTabBarProps> = ({
             className={`
               flex h-16 w-full items-center justify-center border-subtle-stroke border-b px-4 
               font-medium text-[15px] leading-5 cursor-pointer transition-colors duration-150 ease-out
-              ${activeTab === index 
-                ? 'bg-[#FAFAFB]' 
+              ${activeTab === index
+                ? 'bg-[#FAFAFB]'
                 : 'bg-primary-background'
               }
             `}
@@ -58,13 +60,15 @@ export const ProductTabBar: React.FC<ProductTabBarProps> = ({
           >
             {tab.label}
           </button>
-          
+
           {/* Progress bar */}
           {activeTab === index && isAutoPlaying && (
             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E4E7EC]">
-              <div 
-                className="h-full bg-[#1C1D1F] transition-all duration-75 ease-linear"
-                style={{ width: `${progress}%` }}
+              <div
+                className="h-full bg-[#1C1D1F]"
+                style={{
+                  width: `${progress}%`
+                }}
               />
             </div>
           )}

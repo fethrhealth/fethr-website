@@ -31,6 +31,7 @@ interface Tab {
 
 const ProductTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [previousTab, setPreviousTab] = useState<number>();
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const [workflowAnimationPhase, setWorkflowAnimationPhase] = useState<'hidden' | 'sidebar-entering' | 'steps-fading-in' | 'running' | 'sidebar-exiting'>('running');
@@ -77,6 +78,7 @@ const ProductTabs: React.FC = () => {
       setProgress(newProgress);
 
       if (elapsed >= CYCLE_DURATION) {
+        setProgress(0);
         setActiveTab((prev) => (prev + 1) % tabs.length);
         startTimeRef.current = currentTime;
       }
@@ -292,8 +294,8 @@ const ProductTabs: React.FC = () => {
     }
 
     console.log('Tab clicked:', index, tabs[index]?.label);
-    setActiveTab(index);
     setProgress(0);
+    setActiveTab(index);
 
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -364,6 +366,7 @@ const ProductTabs: React.FC = () => {
             <ProductTabBar
               tabs={tabs}
               activeTab={activeTab}
+              previousTab={previousTab}
               progress={progress}
               isAutoPlaying={isAutoPlaying}
               onTabClick={handleTabClick}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import ContentLogo from '@/assets/icon.svg'
+import Icon from '@/assets/icon.svg'
 import Image from 'next/image'
 
 interface NavigationItem {
@@ -171,8 +171,12 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
     `}>
       {/* Sidebar Header */}
       <div className="flex items-center justify-between gap-x-6 border-[#EEEFF1] border-b pt-3 pr-[15px] pb-[11px] pl-3">
-        <div className="flex items-center">
-          <Image src={ContentLogo} alt="content logo" width={24} />
+        <div className="flex items-center gap-7">
+          <div className='flex items-end'>
+            <Image src={Icon} alt="icon" width={30} />
+
+            <span className='text-sm'>Fethr Health</span>
+          </div>
 
           <svg className="ml-[5px]" width="18" height="18" fill="none">
             <path d="M5.25 7.125 9 10.875l3.75-3.75" stroke="#5C5E63" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"></path>

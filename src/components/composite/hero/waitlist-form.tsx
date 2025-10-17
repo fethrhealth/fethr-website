@@ -25,8 +25,8 @@ export function WaitlistForm() {
   // Envelope icon matching Attio's structure
   const envelopeIcon = (
     <svg height="14px" width="14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-      <polyline points="22,6 12,13 2,6"/>
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
     </svg>
   )
 
@@ -34,7 +34,7 @@ export function WaitlistForm() {
     <div className="flex items-center justify-center mt-6 w-full">
       {/* Desktop Form - Fixed height container with absolute error positioning */}
       <div className="hidden sm:block relative" style={{ height: '34px' }}>
-        <form 
+        <form
           onSubmit={(e) => {
             e.preventDefault()
             handleSubmit()
@@ -52,7 +52,7 @@ export function WaitlistForm() {
             realTimeValidation={true}
             containerClassName="w-[300px] h-[34px]"
           />
-          
+
           <button
             type="submit"
             onClick={handleSubmit}
@@ -79,14 +79,14 @@ export function WaitlistForm() {
             )}
           </button>
         </form>
-        
+
         {/* Error message positioned absolutely outside of form flow */}
         {error && (
-          <div 
-            className="absolute left-0 text-sm whitespace-nowrap" 
-            style={{ 
+          <div
+            className="absolute left-0 text-sm whitespace-nowrap"
+            style={{
               top: '42px',
-              color: 'rgb(246, 83, 81)' 
+              color: 'rgb(246, 83, 81)'
             }}
           >
             {error}
@@ -105,14 +105,14 @@ export function WaitlistForm() {
           icon={envelopeIcon}
           realTimeValidation={true}
         />
-        
+
         {error && (
           <div className="text-sm" style={{ color: 'rgb(246, 83, 81)' }}>
             {error}
           </div>
         )}
-        
-        <button 
+
+        <button
           type="submit"
           onClick={handleSubmit}
           disabled={isLoading || isSuccess}
