@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Icon from '@/assets/icon.svg'
+import Icon from '@/assets/icon.webp'
 import Image from 'next/image'
 
 interface NavigationItem {
