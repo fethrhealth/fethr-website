@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Button, Logo } from '@/components/ui'
+import { Button } from '@/components/ui'
 import { NAV_ITEMS } from '@/lib/constants'
 import { Menu, ChevronDown } from 'lucide-react'
 import { MobileMenu } from './mobile-menu'
+import Logo from '@/assets/logo.svg'
+import Image from 'next/image'
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -22,12 +24,12 @@ export function Navbar() {
             <nav className="pt-4 pb-[15px]">
               {/* Inner div - 1392x36 no padding */}
               <div className="flex items-center justify-between h-9">
-                
+
                 {/* Inner flex grow div - 1201.490x36 (doesn't contain buttons) */}
                 <div className="flex grow items-center gap-x-9">
                   {/* Logo link - 103x28 with -6px margins, 6px left/right padding */}
                   <Link href="/" className="-mx-1.5 rounded-xl px-1.5">
-                    <Logo />
+                    <Image src={Logo} alt="navbar logo" width={150} />
                   </Link>
 
                   {/* Nav element - 419.188x36 */}
@@ -80,14 +82,14 @@ export function Navbar() {
 
                 {/* Div containing buttons - 190.5x36 */}
                 <div className="hidden gap-x-2.5 lg:flex">
-                  <a 
-                    href="https://app.fethr.com/" 
+                  <a
+                    href="https://app.fethr.com/"
                     className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 disabled:pointer-events-none disabled:cursor-default button-outline h-9 gap-x-1.5 rounded-[10px] px-3 text-sm has-[>svg:last-child,>img:last-child]:pr-2 has-[>svg:first-child,>img:first-child]:pl-2 max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-lg:has-[>svg:last-child,>img:last-child]:pr-3 max-lg:has-[>svg:first-child,>img:first-child]:pl-3"
                   >
                     Sign in
                   </a>
-                  <a 
-                    href="https://app.fethr.com/welcome/sign-in" 
+                  <a
+                    href="https://app.fethr.com/welcome/sign-in"
                     className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 disabled:pointer-events-none disabled:cursor-default button-primary h-9 gap-x-1.5 rounded-[10px] px-3 text-sm has-[>svg:last-child,>img:last-child]:pr-2 has-[>svg:first-child,>img:first-child]:pl-2 max-lg:h-11.5 max-lg:gap-x-2 max-lg:rounded-xl max-lg:px-3.5 max-lg:text-base max-lg:has-[>svg:last-child,>img:last-child]:pr-3 max-lg:has-[>svg:first-child,>img:first-child]:pl-3"
                   >
                     Start for free
@@ -100,9 +102,9 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
       />
     </>
   )

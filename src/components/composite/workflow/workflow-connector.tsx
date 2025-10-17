@@ -9,6 +9,8 @@ interface WorkflowConnectorProps {
   height?: number;
   width?: number;
   animate?: boolean;
+  delay?: number;
+
 }
 
 export const WorkflowConnector: React.FC<WorkflowConnectorProps> = ({
@@ -17,17 +19,46 @@ export const WorkflowConnector: React.FC<WorkflowConnectorProps> = ({
   label,
   height = 71,
   width = 12,
-  animate = false
+  animate = false,
+  delay
 }) => {
   const getConnectorPath = () => {
+    const [isVisible, setIsVisible] = React.useState(false);
+
+
+    React.useEffect(() => {
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, (delay || 0) * 2000); // Convert delay to milliseconds (0.5s intervals)
+
+      return () => clearTimeout(timer);
+    }, [delay]);
+
     switch (type) {
       case 'vertical':
         return (
-          <svg className="-translate-x-1/2 absolute top-0 left-0 col-start-5 row-start-2 row-end-2 h-[71px] w-3" viewBox="0 0 12 71" fill="none">
+          <svg className="-translate-x-1/2 absolute top-0 left-0 col-start-5 row-start-2 row-end-2 h-[71px] w-3" viewBox="0 0 12 71" fill="none" style={{ opacity: isVisible ? 1 : 0, }}>
             <path d="M6 8 L6 35 L6 65" stroke="#D1D3D6" strokeLinecap="round" strokeLinejoin="round"></path>
             {status === 'active' && (
               <path d="M6 8 L6 65" stroke="#54D490" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-                {animate && <animate attributeName="stroke-dasharray" values="0,60;60,0" dur="0.25s" fill="freeze"/>}
+                {animate && (
+                  <>
+                    <animate
+                      attributeName="stroke-dasharray"
+                      values="0,60;60,0"
+                      dur="0.5s"
+                      fill="freeze"
+                      begin="0s"
+                    />
+                    <animate
+                      attributeName="stroke"
+                      values="#D1D3D6;#54D490"
+                      dur="0.5s"
+                      fill="freeze"
+                      begin="0s"
+                    />
+                  </>
+                )}
               </path>
             )}
             <path d="M6 66L1 61" stroke={status === 'active' ? '#54D490' : '#D1D3D6'} strokeLinecap="round" strokeLinejoin="round"></path>
