@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui'
 import { NAV_ITEMS } from '@/lib/constants'
 import { X } from 'lucide-react'
-import Logo from '@/assets/logo.svg'
 import Image from 'next/image'
 
 interface MobileMenuProps {
@@ -29,7 +28,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-subtle-stroke">
-            <Image src={Logo} alt="mobile menu logo" width={50} />
+            <Image src="/assets/logo.svg" alt="mobile menu logo" width={50} height={20} />
 
             <button
               onClick={onClose}

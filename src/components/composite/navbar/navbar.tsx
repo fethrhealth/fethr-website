@@ -6,7 +6,6 @@ import { Button } from '@/components/ui'
 import { NAV_ITEMS } from '@/lib/constants'
 import { Menu, ChevronDown } from 'lucide-react'
 import { MobileMenu } from './mobile-menu'
-import Logo from '@/assets/logo.svg'
 import Image from 'next/image'
 
 export function Navbar() {
@@ -29,7 +28,7 @@ export function Navbar() {
                 <div className="flex grow items-center gap-x-9">
                   {/* Logo link - 103x28 with -6px margins, 6px left/right padding */}
                   <Link href="/" className="-mx-1.5 rounded-xl px-1.5">
-                    <Image src={Logo} alt="navbar logo" width={150} />
+                    <Image src="/assets/logo.svg" alt="navbar logo" width={150} height={40} />
                   </Link>
 
                   {/* Nav element - 419.188x36 */}

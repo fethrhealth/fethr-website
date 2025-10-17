@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import Icon from '@/assets/icon.webp'
 import Image from 'next/image'
 
 interface NavigationItem {
@@ -173,7 +172,7 @@ export const WorkflowSidebar: React.FC<WorkflowSidebarProps> = ({
       <div className="flex items-center justify-between gap-x-6 border-[#EEEFF1] border-b pt-3 pr-[15px] pb-[11px] pl-3">
         <div className="flex items-center gap-7">
           <div className='flex items-end'>
-            <Image src={Icon} alt="icon" width={30} />
+            <Image src="/assets/icon.webp" alt="icon" width={30} height={30} />
 
             <span className='text-sm'>Fethr Health</span>
           </div>

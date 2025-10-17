@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image'
-import Logo from '@/assets/logo-white.svg'
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { AiOutlineYoutube } from "react-icons/ai";
 
@@ -72,7 +71,7 @@ const Footer: React.FC = () => {
         <div className='container-custom !py-16'>
           <div className='grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-0'>
             <div className='col-span-5'>
-              <Image src={Logo} alt="footer logo" width={120} />
+              <Image src="/assets/logo-white.svg" alt="footer logo" width={120} height={30} />
             </div>
 
             <div className='col-span-7'>
