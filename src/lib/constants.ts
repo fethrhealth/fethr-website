@@ -1,9 +1,9 @@
 import { FooterSection, NavItem } from '@/types'
 
 export const SITE_CONFIG = {
-  name: 'Fethr',
-  description: 'Fethr is the AI-native automation platform for healthcare organizations.',
-  url: 'https://fethr.com',
+  name: 'Fethr, Intelligent Healthcare Automation Platform',
+  description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data',
+  url: 'https://fethrhealth.com',
 } as const
 
 export const NAV_ITEMS: NavItem[] = [
