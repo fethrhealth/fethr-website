@@ -31,28 +31,28 @@ export async function submitToWaitlist(data: WaitlistData): Promise<ApiResponse>
 /**
  * Submit demo form
  */
-export async function submitDemoForm(data: DemoFormData): Promise<ApiResponse> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/demo`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+// export async function submitDemoForm(data: DemoFormData): Promise<ApiResponse> {
+//   try {
+//     const response = await fetch(`${API_BASE_URL}/api/demo`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(data),
+//     });
 
-    const result = await response.json();
+//     const result = await response.json();
 
-    if (!response.ok) {
-      throw new Error(result.error || 'Failed to submit demo form');
-    }
+//     if (!response.ok) {
+//       throw new Error(result.error || 'Failed to submit demo form');
+//     }
 
-    return result;
-  } catch (error) {
-    console.error('Demo form submission error:', error);
-    throw error;
-  }
-}
+//     return result;
+//   } catch (error) {
+//     console.error('Demo form submission error:', error);
+//     throw error;
+//   }
+// }
 
 /**
  * Generic API error handler

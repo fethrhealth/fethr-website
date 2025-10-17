@@ -514,8 +514,8 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
                       </div>
 
                       <WorkflowStep
-                        title="Record command"
-                        description="Trigger on a Company"
+                        title="Fetch a patient"
+                        description="Search for a patient in eClinicalWorks"
                         icon={(
                           <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5EEFF"></rect>
@@ -523,7 +523,7 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
                             <path fillRule="evenodd" clipRule="evenodd" d="M8.693 4.786H11.308c.582 0 1.049 0 1.426.03.389.032.726.1 1.038.258.497.253.901.658 1.155 1.155.158.311.225.649.257 1.037.03.378.03.845.03 1.427v.45a.5.5 0 0 1-1 0v-.429c0-.608 0-1.034-.027-1.366-.026-.327-.076-.518-.151-.665a1.643 1.643 0 0 0-.718-.718c-.147-.075-.339-.125-.665-.152-.332-.027-.759-.027-1.367-.027H8.715c-.609 0-1.035 0-1.367.027-.326.027-.518.077-.665.152-.309.157-.56.409-.718.718-.075.147-.125.338-.151.665-.027.332-.028.758-.028 1.366v2.572c0 .608 0 1.034.028 1.367.026.326.076.517.151.664.158.31.409.56.718.718.147.075.339.125.665.152.332.027.758.027 1.367.027H10a.5.5 0 1 1 0 1H8.693c-.582 0-1.049 0-1.426-.03-.389-.032-.726-.099-1.038-.258a2.643 2.643 0 0 1-1.155-1.155c-.158-.311-.225-.649-.257-1.037-.03-.378-.03-.845-.03-1.427V8.693c0-.582 0-1.049.03-1.427.032-.388.099-.726.257-1.037A2.643 2.643 0 0 1 6.23 5.074c.312-.159.65-.226 1.038-.257.377-.031.844-.031 1.426-.031Zm-.537 1.958H8.364c.148 0 .287 0 .405.01.127.01.272.034.416.107.204.104.369.27.472.472.074.145.098.29.109.417.01.118.01.257.01.405V8.363c0 .148 0 .287-.01.405-.01.128-.035.272-.109.417a1.08 1.08 0 0 1-.472.472c-.144.073-.289.097-.416.108-.118.01-.257.01-.405.01H8.155c-.148 0-.288 0-.405-.01a1.093 1.093 0 0 1-.417-.108 1.08 1.08 0 0 1-.472-.472 1.093 1.093 0 0 1-.108-.417c-.01-.118-.01-.257-.01-.405V8.155c0-.148 0-.287.01-.405.01-.127.035-.272.108-.417a1.08 1.08 0 0 1 .472-.472c.144-.073.29-.097.417-.108.117-.01.257-.01.405-.01ZM7.78 7.756a.08.08 0 0 0-.024.025.453.453 0 0 0-.006.05c-.006.072-.007.17-.007.341v.174c0 .17 0 .269.007.34a.453.453 0 0 0 .006.051.08.08 0 0 0 .024.025.453.453 0 0 0 .051.006c.072.006.17.006.34.006h.175c.17 0 .268 0 .34-.006a.453.453 0 0 0 .051-.006.08.08 0 0 0 .024-.025.453.453 0 0 0 .007-.05c.006-.072.006-.17.006-.34v-.175c0-.17 0-.269-.006-.34a.453.453 0 0 0-.007-.051.08.08 0 0 0-.024-.025.453.453 0 0 0-.05-.006 4.796 4.796 0 0 0-.341-.006h-.174c-.171 0-.269 0-.34.006a.453.453 0 0 0-.052.006Zm-.537 2.76a.5.5 0 0 0 0 1h3.614a.5.5 0 0 0 0-1H7.244Zm-.5 2.24a.5.5 0 0 1 .5-.5h2.328a.5.5 0 1 1 0 1H7.244a.5.5 0 0 1-.5-.5Zm5.351-.084 1.154-1.234v.928c0 .39.316.706.705.706h.41l-1.298 1.294v-.989a.706.706 0 0 0-.706-.705h-.265Zm2.154-1.98c0-.64-.784-.949-1.222-.481l-2.125 2.273a.706.706 0 0 0 .515 1.188h.65v1.404c0 .628.759.943 1.203.5l2.303-2.3a.706.706 0 0 0-.498-1.204h-.826v-1.38Z" fill="#407FF2"></path>
                           </svg>
                         )}
-                        badge={{ text: 'Records' }}
+                        badge={{ text: 'EHR' }}
                         status={stepStates.trigger}
                       />
                     </div>
@@ -536,24 +536,22 @@ const WorkflowsContent: React.FC<WorkflowsContentProps> = ({
 
                     <div className="col-span-2 col-start-4 row-start-3">
                       <WorkflowStep
-                        title="Research record"
-                        description="Determine funding stage of company"
+                        title="Make API Call"
+                        description="Send data to iClinic"
                         icon={(
                           <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <rect x=".5" y=".5" width="19" height="19" rx="4.5" stroke="#232529" strokeOpacity=".08"></rect>
-                            <g fill="#9162F9">
-                              <path d="M14.75 10V8.45c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874c-.428-.218-.988-.218-2.108-.218h-3.1c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874c-.218.428-.218.988-.218 2.108v3.1c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.428.218.988.218 2.108.218H10" stroke="#9162F9" strokeLinecap="round" />
-                              <rect x="7.149" y="7.15" width="2.1" height="2.1" rx=".6" stroke="#9162F9" strokeLinecap="round" strokeLinejoin="round" />
-                              <path d="M7.15 11.05H9.5M7.15 12.85H9" stroke="#9162F9" strokeLinecap="round" />
-                              <path fillRule="evenodd" clipRule="evenodd" d="M11.5 12.75a1.25 1.25 0 1 1 2.5 0 1.25 1.25 0 0 1-2.5 0Zm1.25-2.25a2.25 2.25 0 1 0 1.198 4.155l.698.699a.5.5 0 0 0 .708-.707l-.699-.7A2.25 2.25 0 0 0 12.75 10.5Z" />
-                            </g>
+                            <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5EEFF"></rect>
+                            <rect x=".5" y=".5" width="19" height="19" rx="5.5" stroke="#D6E5FF"></rect>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M4.5 6.65269C4.5 5.38215 5.5396 4.34521 6.8125 4.34521H13.1875C14.4607 4.34521 15.5 5.38278 15.5 6.65271V8.60771C15.5 8.85063 15.3054 9.04521 15.0625 9.04521C14.8196 9.04521 14.625 8.85063 14.625 8.60771V6.65271C14.625 5.86723 13.9766 5.22021 13.1875 5.22021H6.8125C6.0232 5.22021 5.375 5.86781 5.375 6.65269V11.9039C5.375 12.4512 5.6257 12.9158 6.0231 13.2087C6.25171 13.3683 6.30182 13.6751 6.1409 13.9025C5.97997 14.1299 5.67104 14.1796 5.44243 14.02C4.82422 13.5682 4.5 12.8989 4.5 11.9039V6.65269Z" fill="#9162F9"></path>
+                            <path d="M12.6584 9.69172C12.7734 9.56718 12.9632 9.55582 13.0871 9.67258L15.9265 12.3541C15.9348 12.3616 15.9424 12.3697 15.9494 12.378C16.0084 12.4511 16.001 12.5581 15.9305 12.6199L13.091 15.2833C13.046 15.3237 12.9885 15.35 12.9277 15.35C12.7988 15.35 12.6948 15.2436 12.6948 15.11L12.6956 14.1753C11.463 14.0405 8.375 13.6841 8.375 13.4986C8.375 13.3625 9.62778 13.1517 12.6944 12.8585L12.6948 11.95C12.6948 11.8788 12.7189 11.8088 12.6584 9.69172Z" fill="#9162F9"></path>
                           </svg>
                         )}
                         badge={{
-                          text: 'Agent',
+                          text: 'API',
                           icon: (
-                            <svg className="size-3" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M10.235 10.456a1.766 1.766 0 1 0-.002-3.53 1.766 1.766 0 0 0 .002 3.53ZM1.765 5.497a1.766 1.766 0 1 0-.001-3.531 1.766 1.766 0 0 0 .001 3.531ZM5.911 2.613a1.306 1.306 0 1 0 0-2.612 1.306 1.306 0 0 0 0 2.612ZM1.765 10.003a1.306 1.306 0 1 0-.001-2.612 1.306 1.306 0 0 0 0 2.612ZM5.948 7.39a1.175 1.175 0 1 0-.001-2.35 1.175 1.175 0 0 0 0 2.35ZM5.912 12a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85ZM10.077 4.677a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85Z" fill="#565B60" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#565B60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <rect width="7" height="7" x="14" y="3" rx="1" />
+                              <path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3" />
                             </svg>
                           ),
                           bgColor: 'border-[#CDD7DE] bg-[#D9E6EF]',
@@ -678,8 +676,8 @@ const AITabContent: React.FC<AITabContentProps> = ({
                         </div>
 
                         <AIStep
-                          title="Epic Orders"
-                          description="Incoming HL7 ADT messages"
+                          title="Incoming Epic Orders"
+                          description="Receive HL7 ORM Messages from Epic"
                           icon={(
                             <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5EEFF"></rect>
@@ -700,36 +698,29 @@ const AITabContent: React.FC<AITabContentProps> = ({
                         delay={0.5}
                       />
 
-                      <div className="col-span-2 col-start-4 row-start-3">
-                        <AIStep
-                          title="Transform Data"
-                          description="Convert Epic format to Cerner format"
-                          icon={(
-                            <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                              <rect x=".5" y=".5" width="19" height="19" rx="4.5" stroke="#232529" strokeOpacity=".08"></rect>
-                              <g fill="#9162F9">
-                                <path d="M14.75 10V8.45c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874c-.428-.218-.988-.218-2.108-.218h-3.1c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874c-.218.428-.218.988-.218 2.108v3.1c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874c.428.218.988.218 2.108.218H10" stroke="#9162F9" strokeLinecap="round" />
-                                <rect x="7.149" y="7.15" width="2.1" height="2.1" rx=".6" stroke="#9162F9" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M7.15 11.05H9.5M7.15 12.85H9" stroke="#9162F9" strokeLinecap="round" />
-                                <path fillRule="evenodd" clipRule="evenodd" d="M11.5 12.75a1.25 1.25 0 1 1 2.5 0 1.25 1.25 0 0 1-2.5 0Zm1.25-2.25a2.25 2.25 0 1 0 1.198 4.155l.698.699a.5.5 0 0 0 .708-.707l-.699-.7A2.25 2.25 0 0 0 12.75 10.5Z" />
-                              </g>
-                            </svg>
-                          )}
-                          badge={{
-                            text: 'AI',
-                            icon: (
-                              <svg className="size-3" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                <path d="M10.235 10.456a1.766 1.766 0 1 0-.002-3.53 1.766 1.766 0 0 0 .002 3.53ZM1.765 5.497a1.766 1.766 0 1 0-.001-3.531 1.766 1.766 0 0 0 .001 3.531ZM5.911 2.613a1.306 1.306 0 1 0 0-2.612 1.306 1.306 0 0 0 0 2.612ZM1.765 10.003a1.306 1.306 0 1 0-.001-2.612 1.306 1.306 0 0 0 0 2.612ZM5.948 7.39a1.175 1.175 0 1 0-.001-2.35 1.175 1.175 0 0 0 0 2.35ZM5.912 12a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85ZM10.077 4.677a.925.925 0 1 0-.001-1.85.925.925 0 0 0 0 1.85Z" fill="#565B60" />
-                              </svg>
-                            ),
-                            bgColor: 'border-[#CDD7DE] bg-[#D9E6EF]',
-                            textColor: 'text-[#565B60]',
-                            borderColor: 'border-[#CDD7DE]'
-                          }}
-                          status={aiStepStates.transform}
-                          delay={1}
-                        />
-                      </div>
+                    <div className="col-span-2 col-start-4 row-start-3">
+                      <AIStep
+                        title="Map Data"
+                        description="Map data from Epic to Cerner"
+                        icon={(
+                          <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x=".5" y=".5" width="19" height="19" rx="4.5" stroke="#232529" strokeOpacity=".08"></rect>
+                            <g fill="#9162F9">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M8.66516 3.76748C9.15605 3.51489 9.73139 3.52916 10.2104 3.85035L16.85 7.99674C17.5302 8.42636 17.5439 9.44869 16.8767 9.89591L10.2847 13.9533C9.72516 14.3198 9.02486 14.3198 8.46533 13.9533L1.87323 9.89591C1.20611 9.44869 1.21983 8.42636 1.90006 7.99674L8.54011 3.85035L8.66516 3.76748ZM9.68915 5.08817C9.45805 4.95266 9.18721 4.93879 8.94725 5.04285L8.82668 5.08817L3.04934 8.89704L8.70364 12.379C9.00339 12.5561 9.37279 12.5561 9.67254 12.379L15.3252 8.89704L9.68915 5.08817Z"></path>
+                              <path fillRule="evenodd" clipRule="evenodd" d="M16.1306 13.596C16.4251 13.4304 16.7653 13.5416 16.9442 13.8062C17.1229 14.0707 16.9793 14.3809 16.6848 14.5465L10.0085 18.0866C9.44918 18.4502 8.74904 18.4502 8.18972 18.0866L1.51355 14.5465L1.45489 14.5535C1.1748 14.3934 1.07461 14.095 1.23104 13.8062C1.38753 13.5175 1.71619 13.4011 2.00783 13.5096L2.06876 13.596L8.74494 17.1354L8.90844 17.208C9.28502 17.3402 9.70617 17.3196 10.0691 17.1354L16.1306 13.596Z"></path>
+                            </g>
+                          </svg>
+                        )}
+                        badge={{
+                          text: 'Transform',
+                          bgColor: 'border-[#CDD7DE] bg-[#D9E6EF]',
+                          textColor: 'text-[#565B60]',
+                          borderColor: 'border-[#CDD7DE]'
+                        }}
+                        status={aiStepStates.transform}
+                        delay={1}
+                      />
+                    </div>
 
                       <div className="-translate-x-1/2 absolute top-0 left-0 col-start-5 row-start-4 row-end-5 h-[71px] w-3 ml-1">
                         <WorkflowConnector
@@ -742,8 +733,8 @@ const AITabContent: React.FC<AITabContentProps> = ({
 
                       <div className="col-span-2 col-start-4 row-start-5">
                         <AIStep
-                          title="Send to Cerner"
-                          description="Deliver transformed orders"
+                          title="Outbound Orders to Cerner"
+                          description="Send outbound HL7 ORM messages to Cerner"
                           icon={(
                             <svg className="size-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <rect x=".5" y=".5" width="19" height="19" rx="5.5" fill="#E5F7FF"></rect>
@@ -754,7 +745,7 @@ const AITabContent: React.FC<AITabContentProps> = ({
                               </g>
                             </svg>
                           )}
-                          badge={{ text: 'Delivery' }}
+                          badge={{ text: 'EHR' }}
                           status={aiStepStates.deliver}
                           delay={1.5}
                         />

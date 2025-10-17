@@ -31,13 +31,9 @@ export function Navbar() {
                     <Image src="/assets/logo.svg" alt="navbar logo" width={150} height={40} />
                   </Link>
 
-                  {/* Nav element - 419.188x36 */}
-                  <nav aria-label="Main" className="relative z-1">
-                    {/* Div inside nav - same dimensions */}
+                  {/* <nav aria-label="Main" className="relative z-1">
                     <div className="relative">
-                      {/* UL inside - same dimensions */}
                       <ul className="hidden items-center gap-x-1.5 lg:flex">
-                        {/* Each li - 104.613x36 */}
                         <li>
                           <button className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 disabled:pointer-events-none disabled:cursor-default h-9 gap-x-1.5 rounded-[10px] px-3 group select-none text-navbar bg-transparent hover:bg-secondary-background border-none">
                             <span>Platform</span>
@@ -68,18 +64,17 @@ export function Navbar() {
                         </li>
                       </ul>
                     </div>
-                  </nav>
+                  </nav> */}
                 </div>
 
                 {/* Mobile Menu Button */}
-                <button
+                {/* <button
                   className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border text-base transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 disabled:pointer-events-none disabled:cursor-default size-9 rounded-[10px] lg:hidden -mr-3 bg-transparent hover:bg-secondary-background border-none"
                   onClick={() => setIsMobileMenuOpen(true)}
                 >
                   <Menu className="text-black-500 h-6 w-6" />
                 </button>
 
-                {/* Div containing buttons - 190.5x36 */}
                 <div className="hidden gap-x-2.5 lg:flex">
                   <a
                     href="https://app.fethr.com/"
@@ -93,7 +88,7 @@ export function Navbar() {
                   >
                     Start for free
                   </a>
-                </div>
+                </div> */}
               </div>
             </nav>
           </div>
