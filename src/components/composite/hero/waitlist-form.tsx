@@ -8,12 +8,23 @@ export function WaitlistForm() {
   const [email, setEmail] = useState('')
   const { isLoading, message, isSuccess, error, submitForm, reset } = useWaitlist()
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault() // Prevent default form submission
     await submitForm({ email })
+  }
+
+  // Reset form after successful submission
+  React.useEffect(() => {
     if (isSuccess) {
       setEmail('')
+      // Reset the success state after 1 second
+      const timer = setTimeout(() => {
+        reset()
+      }, 1000)
+      
+      return () => clearTimeout(timer)
     }
-  }
+  }, [isSuccess, reset])
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
@@ -35,10 +46,7 @@ export function WaitlistForm() {
       {/* Desktop Form - Fixed height container with absolute error positioning */}
       <div className="hidden sm:block relative" style={{ height: '34px' }}>
         <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleSubmit()
-          }}
+          onSubmit={handleSubmit}
           className="flex items-center gap-2.5"
           noValidate
         >
@@ -55,8 +63,8 @@ export function WaitlistForm() {
 
           <button
             type="submit"
-            onClick={handleSubmit}
-            className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 button-primary h-[34px] gap-x-1.5 rounded-[10px] px-3 text-sm"
+            disabled={isLoading}
+            className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 button-primary h-[34px] gap-x-1.5 rounded-[10px] px-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               fontFamily: '"Inter", "Inter Fallback"',
               fontWeight: 500,
@@ -96,42 +104,43 @@ export function WaitlistForm() {
 
       {/* Mobile Form */}
       <div className="flex w-full max-w-xs flex-col gap-2 sm:hidden">
-        <Input
-          type="email"
-          placeholder="Enter your work email address"
-          value={email}
-          onChange={handleEmailChange}
-          disabled={isLoading || isSuccess}
-          icon={envelopeIcon}
-          realTimeValidation={true}
-        />
+        <form onSubmit={handleSubmit} noValidate>
+          <Input
+            type="email"
+            placeholder="Enter your work email address"
+            value={email}
+            onChange={handleEmailChange}
+            disabled={isLoading || isSuccess}
+            icon={envelopeIcon}
+            realTimeValidation={true}
+          />
 
-        {error && (
-          <div className="text-sm" style={{ color: 'rgb(246, 83, 81)' }}>
-            {error}
-          </div>
-        )}
-
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          disabled={isLoading || isSuccess}
-          className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 button-primary h-11.5 gap-x-2 rounded-[10px] px-3.5 text-base"
-        >
-          {isLoading ? (
-            <>
-              <svg className="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                <path fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
-              </svg>
-              Joining...
-            </>
-          ) : isSuccess ? (
-            'Joined Waitlist!'
-          ) : (
-            'Join Waitlist'
+          {error && (
+            <div className="text-sm mt-2" style={{ color: 'rgb(246, 83, 81)' }}>
+              {error}
+            </div>
           )}
-        </button>
+
+          <button
+            type="submit"
+            disabled={isLoading || isSuccess}
+            className="relative inline-flex cursor-pointer items-center justify-center text-nowrap border transition-colors duration-400 ease-in-out hover:duration-150 active:duration-50 button-primary h-11.5 gap-x-2 rounded-[10px] px-3.5 text-base w-full mt-2"
+          >
+            {isLoading ? (
+              <>
+                <svg className="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                  <path fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
+                </svg>
+                Joining...
+              </>
+            ) : isSuccess ? (
+              'Joined Waitlist!'
+            ) : (
+              'Join Waitlist'
+            )}
+          </button>
+        </form>
       </div>
 
       {/* Success Messages */}
