@@ -12,7 +12,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'fethr-website.vercel.app',
+        pathname: '/**',
       },
     ],
   },
