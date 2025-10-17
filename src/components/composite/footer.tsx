@@ -8,27 +8,28 @@ import { AiOutlineYoutube } from "react-icons/ai";
 
 const footerLinks = {
   platform: [
-    { label: 'Referal Program', href: '#' },
-    { label: 'Change Log', href: '#' },
-    { label: 'Security', href: '#' },
+    // { label: 'Referal Program', href: '#' },
+    // { label: 'Change Log', href: '#' },
+    // { label: 'Security', href: '#' },
   ],
   company: [
-    { label: 'Customers', href: '#' },
-    { label: 'Announcements', href: '#' },
-    { label: 'Blog', href: '#' },
-    { label: 'Careers', href: '#' },
-    { label: 'Become a partner', href: '#' },
+    { label: 'Manifesto', href: '#'},
+    // { label: 'Customers', href: '#' },
+    // { label: 'Announcements', href: '#' },
+    // { label: 'Blog', href: '#' },
+    // { label: 'Careers', href: '#' },
+    // { label: 'Become a partner', href: '#' },
   ],
   resources: [
-    { label: 'Startup Program', href: '#' },
-    { label: 'Help Center', href: '#' },
-    { label: 'Developers', href: '#' },
-    { label: 'System Status', href: '#' },
+    // { label: 'Startup Program', href: '#' },
+    // { label: 'Help Center', href: '#' },
+    // { label: 'Developers', href: '#' },
+    // { label: 'System Status', href: '#' },
   ],
 };
 
 const socialLinks = [
-  { Icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
+  { Icon: FaLinkedinIn, href: 'https://linkedin.com/company/fethrhealth', label: 'LinkedIn' },
   { Icon: FaXTwitter, href: '#', label: 'Twitter' },
   { Icon: AiOutlineYoutube, href: '#', label: 'YouTube' },
 ];

@@ -90,13 +90,18 @@ export const FOOTER_SECTIONS: FooterSection[] = [
 export const SOCIAL_LINKS = [
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/company/fethr',
+    href: 'https://linkedin.com/company/fethrhealth',
     icon: 'linkedin'
   },
   {
     name: 'YouTube',
-    href: 'https://youtube.com/@fethr',
+    href: '#',
     icon: 'youtube'
+  },
+  {
+    name: 'X',
+    href: '#',
+    icon: 'X'
   }
 ] as const
 
