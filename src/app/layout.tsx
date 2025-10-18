@@ -13,22 +13,33 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: SITE_CONFIG.name,
   description: SITE_CONFIG.description,
-  keywords: ['healthcare', 'integration', 'AI', 'automation', 'health technology'],
+  keywords: ['healthcare', 'integration', 'AI', 'automation', 'health technology', 'EHR', 'FHIR', 'HL7', 'interoperability'],
   authors: [{ name: 'Fethr' }],
   creator: 'Fethr',
   publisher: 'Fethr',
   robots: 'index, follow',
+  metadataBase: new URL(SITE_CONFIG.url),
   openGraph: {
     type: 'website',
     url: SITE_CONFIG.url,
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
-    siteName: SITE_CONFIG.name,
+    siteName: 'Fethr Health',
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'Fethr Health - Intelligent Healthcare Automation Platform',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.ogImage],
+    creator: '@fethrhealth',
   },
 }
 

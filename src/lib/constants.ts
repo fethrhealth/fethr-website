@@ -4,6 +4,7 @@ export const SITE_CONFIG = {
   name: 'Fethr, Intelligent Healthcare Automation Platform',
   description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data',
   url: 'https://fethrhealth.com',
+  ogImage: '/og-image.png',
 } as const
 
 export const NAV_ITEMS: NavItem[] = [
@@ -58,7 +59,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     links: [
       { label: 'Customers', href: '#customers' },
       { label: 'Announcements', href: '#announcements' },
-      { label: 'Manifesto', href: '#manifesto' },
+      { label: 'Manifesto', href: '/redefine' },
       { label: 'Become a partner', href: '#partner' }
     ]
   },
