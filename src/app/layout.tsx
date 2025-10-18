@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/composite/navbar'
 import { SITE_CONFIG } from '@/lib/constants'
+import { Analytics } from '@/components/analytics'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -19,6 +20,11 @@ export const metadata: Metadata = {
   publisher: 'Fethr',
   robots: 'index, follow',
   metadataBase: new URL(SITE_CONFIG.url),
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
   openGraph: {
     type: 'website',
     url: SITE_CONFIG.url,
@@ -57,6 +63,7 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+        <Analytics />
       </body>
     </html>
   )
