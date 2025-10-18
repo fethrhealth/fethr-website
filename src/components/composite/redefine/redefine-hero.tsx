@@ -7,7 +7,7 @@ const RedefineHero: React.FC = () => {
     <div className="relative flex flex-col items-center">
       <header className="relative z-1 flex min-h-[calc(100vh-var(--site-header-height))] w-full max-w-4xl flex-col justify-center px-6 pb-32 pt-20">
         <p className="text-[12px] font-semibold tracking-wider uppercase leading-[14px]" style={{ color: 'rgb(164, 173, 186)' }}>
-          / Redefining Interoperability
+          / Redefining Integration
         </p>
         
         <div className="pt-20">
