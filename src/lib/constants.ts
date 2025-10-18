@@ -3,7 +3,7 @@ import { FooterSection, NavItem } from '@/types'
 export const SITE_CONFIG = {
   name: 'Fethr, Intelligent Healthcare Automation Platform',
   description: 'AI-powered healthcare automation platform. Connect to any EHR system. Transform, validate, and orchestrate healthcare data',
-  url: 'https://fethrhealth.com',
+  url: 'https://fethr-website.vercel.app',
   ogImage: '/og-image.png',
 } as const
 
