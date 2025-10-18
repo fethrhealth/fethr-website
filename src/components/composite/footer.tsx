@@ -13,7 +13,7 @@ const footerLinks = {
     // { label: 'Security', href: '#' },
   ],
   company: [
-    { label: 'Manifesto', href: '#'},
+    { label: 'Manifesto', href: '/redefine'},
     // { label: 'Customers', href: '#' },
     // { label: 'Announcements', href: '#' },
     // { label: 'Blog', href: '#' },
